@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ôn tập JPD113</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+:root{--pink:#f43f5e;--pink-bg:#fff1f3;--purple:#a855f7;--purple-bg:#faf5ff;--indigo:#6366f1;--indigo-bg:#eef2ff;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb;--ok:#15803d;--ok-bg:#dcfce7;--warn:#a16207;--warn-bg:#fef9c3;--no:#b91c1c;--no-bg:#fee2e2}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",system-ui,sans-serif;background:#fff7f8;color:var(--text);line-height:1.6}
+.wrap{max-width:1100px;margin:0 auto;padding-block:24px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{text-align:center;font-size:28px;margin:8px 0 24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.lesson{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px}
+.lesson h2{text-align:center;font-size:28px;margin:0 0 16px}
+.sec{border-radius:12px;padding:14px;margin-bottom:14px;border:1px solid var(--border)}
+.sec h3{margin:0 0 10px;font-size:20px}
+.sec.v{background:var(--pink-bg)}.sec.v h3{color:var(--pink)}
+.sec.k{background:var(--purple-bg)}.sec.k h3{color:var(--purple)}
+.sec.g{background:var(--indigo-bg)}.sec.g h3{color:var(--indigo)}
+.btn{display:block;width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid var(--border);background:#fff;font-size:16px;font-weight:600;cursor:pointer;color:inherit}
+.btn:hover{filter:brightness(.97)}
+.sec.v .btn{color:var(--pink)}.sec.v .btn.fill{background:var(--pink);color:#fff;border:none}
+.sec.k .btn{color:var(--purple)}.sec.k .btn.fill{background:var(--purple);color:#fff;border:none}
+.sec.g .btn{color:var(--indigo)}.sec.g .btn.fill{background:var(--indigo);color:#fff;border:none}
+.back{background:none;border:none;font-size:17px;cursor:pointer;color:var(--text);padding:4px 0;margin-bottom:12px}
+.panel{background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px;max-width:720px;margin:0 auto}
+.panel.wide{max-width:1000px}
+.head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.head h2{margin:0;font-size:22px;color:#d97706}
+.tag{display:inline-block;font-size:13px;padding:2px 10px;border-radius:999px;background:var(--indigo-bg);color:var(--indigo);font-weight:600}
+.q{font-size:18px;text-align:center;margin:12px 0}
+.jp{font-size:30px;text-align:center;margin:4px 0 14px;font-weight:600;color:#b45309}
+input[type=text]{width:100%;font-size:18px;padding:12px 14px;border:2px solid #111;border-radius:10px;outline:none}
+input[type=text]:focus{border-color:#f59e0b}
+.err{color:var(--no);font-size:14px;min-height:20px;margin-top:4px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.row button{flex:1;min-width:110px;padding:11px;border-radius:10px;border:1px solid var(--border);background:#fff;font-size:15px;font-weight:600;cursor:pointer}
+.row button.main{background:#f59e0b;color:#fff;border:none}
+.fb{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:16px}
+.fb.ok{background:var(--ok-bg);color:var(--ok)}.fb.warn{background:var(--warn-bg);color:var(--warn)}.fb.no{background:var(--no-bg);color:var(--no)}.fb.info{background:#f3f4f6}
+.fb .big{font-size:22px;font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#f9fafb}
+.tbl{overflow-x:auto}
+.card{min-height:280px;border:2px solid var(--border);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;cursor:pointer;text-align:center;user-select:none;background:#fff}
+.card .front{font-size:46px;font-weight:700}
+.card .sub{font-size:18px;color:var(--muted)}
+.card .back{font-size:17px;text-align:left;width:100%}
+.card .meaning{font-size:26px;font-weight:700;color:var(--pink);text-align:center;margin-bottom:6px}
+.hint{color:var(--muted);font-size:14px;text-align:center;margin-top:8px}
+.gcard{border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.gcard h4{margin:0 0 4px;font-size:18px;color:var(--indigo)}
+.gcard .m{color:var(--muted);margin-bottom:8px}
+.gl{display:grid;grid-template-columns:110px 1fr;gap:4px 12px;font-size:15px}
+.gl b{color:var(--muted);font-weight:600}
+.ro{color:var(--muted);font-style:italic}
+.score{font-size:15px;color:var(--muted)}
+.done{text-align:center}
+.done .big{font-size:40px;font-weight:700;color:#d97706}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const V={
+1:`にほん|nihon|Nhật Bản|日本
+かんこく|kankoku|Hàn Quốc
+ちゅうごく|chuugoku|Trung Quốc
+タイ|tai|Thái Lan
+ベトナム|betonamu|Việt Nam
+オーストラリア|oosutoraria|Úc
+アメリカ|amerika|Mỹ
+イタリア|itaria|Ý
+ロシア|roshia|Nga
+インド|indo|Ấn Độ
+ブラジル|burajiru|Brazil
+イギリス|igirisu|Anh/nước Anh
+わたし|watashi|tôi|私
+～じん|jin|người nước ~/người|人
+（お）くに|(o)kuni|đất nước/nước
+しごと|shigoto|công việc
+きょうし|kyoushi|giáo viên
+かいしゃいん|kaishain|nhân viên văn phòng/nhân viên công ty
+がくせい|gakusei|học sinh/sinh viên|学生
+せんせい|sensei|thầy cô/thầy/cô/giáo viên|先生
+だいがく|daigaku|trường đại học/đại học|大学
+こうこう|koukou|trường cấp ba/cấp ba/cấp 3|高校
+にほんごがっこう|nihongo gakkou|trường tiếng Nhật|日本語学校
+たんじょうび|tanjoubi|sinh nhật|誕生日
+～さい|sai|~ tuổi/tuổi|才
+なんさい|nansai|mấy tuổi/bao nhiêu tuổi|何才
+しゅみ|shumi|sở thích
+スポーツ|supootsu|thể thao
+テニス|tenisu|tennis/quần vợt
+すいえい|suiei|bơi lội/bơi
+サッカー|sakkaa|bóng đá
+えいが|eiga|phim ảnh/phim
+どくしょ|dokusho|đọc sách
+おんがく|ongaku|âm nhạc/nhạc
+りょこう|ryokou|du lịch
+りょうり|ryouri|nấu ăn/món ăn`,
+2:`インフォメーション|infomeeshon|quầy thông tin
+ATM|eetiiemu|cây ATM/máy rút tiền/atm||エーティーエム
+エスカレーター|esukareetaa|thang cuốn
+エレベーター|erebeetaa|thang máy
+トイレ|toire|nhà vệ sinh/toilet
+レジ|reji|quầy thu ngân/thu ngân
+スーパー|suupaa|siêu thị
+100えんショップ|hyakuen shoppu|cửa hàng đồng giá 100 yên/cửa hàng 100 yên||ひゃくえんショップ
+レストラン|resutoran|nhà hàng
+きっさてん|kissaten|quán cà phê
+きつえんじょ|kitsuenjo|nơi hút thuốc/khu hút thuốc
+ちか|chika|tầng hầm/dưới mặt đất|地下
+てんいん|ten'in|nhân viên cửa hàng
+～や|ya|cửa hàng ~/tiệm ~|屋
+くつや|kutsuya|tiệm giày/cửa hàng giày
+ケーキや|keekiya|tiệm bánh ngọt
+パンや|pan'ya|tiệm bánh mì
+カメラ|kamera|máy ảnh
+けいたいでんわ|keitai denwa|điện thoại di động
+じしょ|jisho|từ điển
+でんしじしょ|denshi jisho|từ điển điện tử
+パソコン|pasokon|máy tính
+くつ|kutsu|giày dép/giày
+けしゴム|keshigomu|cục tẩy/tẩy
+ペン|pen|bút mực/bút
+トイレットペーパー|toiretto peepaa|giấy vệ sinh
+ほん|hon|sách|本
+かばん|kaban|túi xách/cặp
+ズボン|zubon|quần
+Tシャツ|tii shatsu|áo thun/áo phông||ティーシャツ
+とけい|tokei|đồng hồ
+さいふ|saifu|ví
+あぶら|abura|dầu/dầu ăn
+ケーキ|keeki|bánh ngọt/bánh kem
+こめ|kome|gạo
+たまご|tamago|trứng
+パン|pan|bánh mì
+みず|mizu|nước
+やさい|yasai|rau củ/rau
+さかな|sakana|cá
+えび|ebi|tôm
+ぶたにく|butaniku|thịt heo/thịt lợn
+とりにく|toriniku|thịt gà
+ぎゅうにく|gyuuniku|thịt bò
+イチゴ|ichigo|dâu tây||いちご
+リンゴ|ringo|táo/quả táo||りんご
+バナナ|banana|chuối
+りょうり|ryouri|món ăn/nấu ăn
+カレー|karee|cà ri
+スープ|suupu|súp/canh
+おやこどん|oyakodon|cơm gà trứng
+とんかつ|tonkatsu|thịt heo chiên xù/thịt lợn chiên xù
+ハンバーグ|hanbaagu|thịt băm viên/hamburg
+ごはん|gohan|cơm
+ライス|raisu|cơm
+（お）ちゃ|(o)cha|trà
+こうちゃ|koucha|hồng trà/trà đen
+コーヒー|koohii|cà phê
+ジュース|juusu|nước ép/nước trái cây
+ワイン|wain|rượu vang/rượu
+ビール|biiru|bia
+インド|indo|Ấn Độ
+ドイツ|doitsu|Đức
+フランス|furansu|Pháp
+えいご|eigo|tiếng Anh|英語`,
+3:`あさ|asa|buổi sáng|朝
+ひる|hiru|buổi trưa|昼
+よる|yoru|ban đêm/buổi tối|夜
+ばん|ban|buổi tối|晩
+ごぜん|gozen|giờ sáng (AM)/buổi sáng trước 12h|午前
+ごご|gogo|giờ chiều (PM)/buổi chiều|午後
+ぎんこう|ginkou|ngân hàng|銀行
+たいいくかん|taiikukan|nhà thi đấu thể thao/phòng thể dục
+としょかん|toshokan|thư viện|図書館
+びょういん|byouin|bệnh viện
+ゆうびんきょく|yuubinkyoku|bưu điện
+きょうしつ|kyoushitsu|phòng học/lớp học
+じゅぎょう|jugyou|giờ học/tiết học/buổi học
+テスト|tesuto|bài kiểm tra/kiểm tra
+やすみ|yasumi|ngày nghỉ/nghỉ|休み
+じかん|jikan|thời gian|時間
+～ようび|youbi|thứ ~ (ngày trong tuần)/thứ|曜日
+にちようび|nichiyoubi|chủ nhật|日曜日
+げつようび|getsuyoubi|thứ hai|月曜日
+かようび|kayoubi|thứ ba|火曜日
+すいようび|suiyoubi|thứ tư|水曜日
+もくようび|mokuyoubi|thứ năm|木曜日
+きんようび|kinyoubi|thứ sáu|金曜日
+どようび|doyoubi|thứ bảy|土曜日
+スケジュール|sukejuuru|lịch trình/thời gian biểu
+アルバイト|arubaito|việc làm thêm/làm thêm
+スキー|sukii|trượt tuyết
+パーティー|paatii|bữa tiệc/tiệc
+バーベキュー|baabekyuu|tiệc nướng/BBQ
+はなび|hanabi|pháo hoa
+おはなみ|ohanami|ngắm hoa anh đào/ngắm hoa
+ホームステイ|hoomusutei|homestay/ở nhà dân
+おまつり|omatsuri|lễ hội
+うみ|umi|biển
+こうえん|kouen|công viên
+さくら|sakura|hoa anh đào
+おさけ|osake|rượu/rượu sake
+おすし|osushi|sushi
+バス|basu|xe buýt
+おべんとう|obentou|cơm hộp
+りゅうがくせい|ryuugakusei|du học sinh
+いちねん|ichinen|một năm/1 năm|一年
+はる|haru|mùa xuân|春
+なつ|natsu|mùa hè/mùa hạ|夏
+あき|aki|mùa thu|秋
+ふゆ|fuyu|mùa đông|冬
+なつやすみ|natsuyasumi|kỳ nghỉ hè/nghỉ hè|夏休み
+ゴールデンウイーク|goorudenuiiku|Tuần lễ vàng (Golden Week)/tuần lễ vàng
+まい～|mai|mỗi ~/mỗi|毎
+まいにち|mainichi|mỗi ngày/hằng ngày|毎日
+あさごはん|asagohan|bữa sáng/cơm sáng|朝ごはん
+ひるごはん|hirugohan|bữa trưa/cơm trưa|昼ごはん
+ばんごはん|bangohan|bữa tối/cơm tối|晩ごはん
+うち|uchi|nhà
+コンビニ|konbini|cửa hàng tiện lợi
+かいしゃ|kaisha|công ty|会社
+がっこう|gakkou|trường học/trường|学校
+ぎゅうにゅう|gyuunyuu|sữa bò/sữa|牛乳
+くだもの|kudamono|trái cây/hoa quả
+サラダ|sarada|salad/sa lát
+チーズ|chiizu|phô mai
+インターネット|intaanetto|internet/mạng
+しんぶん|shinbun|báo/tờ báo
+テレビ|terebi|tivi/truyền hình
+CD|shiidii|đĩa CD/cd||シーディー
+DVD|diibuidii|đĩa DVD/dvd||ディーブイディー
+いきます|ikimasu|đi|行きます
+きます|kimasu|đến|来ます
+かえります|kaerimasu|về/trở về|帰ります
+たべます|tabemasu|ăn|食べます
+のみます|nomimasu|uống|飲みます
+みます|mimasu|xem/nhìn|見ます
+～します|shimasu|làm ~/làm
+おきます|okimasu|thức dậy/dậy|起きます
+ねます|nemasu|ngủ|寝ます
+ききます|kikimasu|nghe|聞きます
+かいます|kaimasu|mua|買います
+よみます|yomimasu|đọc|読みます
+べんきょうします|benkyoushimasu|học/học tập|勉強します
+はたらきます|hatarakimasu|làm việc|働きます`};
+const VOCAB={};
+for(const n in V)VOCAB[n]=V[n].split("\n").map(l=>{const[jp,ro,vn,kanji,alt]=l.split("|");return{jp,ro,vn,kanji:kanji||"",alt:alt||""}});
+
+const KANJI={
+1:[
+{k:"私",hv:"TƯ",vn:"tôi, riêng tư",on:"シ",kun:"わたし",alone:"わたし (watashi) – tôi",c:[],note:"Âm On シ chưa gặp ở bài 1."},
+{k:"人",hv:"NHÂN",vn:"người",on:"ジン・ニン",kun:"ひと",alone:"ひと (hito) – người",c:["日本人|にほんじん|nihonjin|người Nhật","ベトナム人|ベトナムじん|betonamujin|người Việt Nam","三人|さんにん|sannin|3 người","一人|ひとり|hitori|1 người (đặc biệt)","二人|ふたり|futari|2 người (đặc biệt)"],note:"Quốc tịch → じん · Đếm người → にん · 1–2 người → ひとり / ふたり"},
+{k:"才",hv:"TÀI",vn:"tuổi",on:"サイ",kun:"–",alone:"✗ không đứng một mình",c:["五才|ごさい|gosai|5 tuổi","一才|いっさい|issai|1 tuổi","八才|はっさい|hassai|8 tuổi","十才|じゅっさい|jussai|10 tuổi","二十才|はたち|hatachi|20 tuổi (đặc biệt)","何才|なんさい|nansai|mấy tuổi"],note:"1, 8, 10 có っ · 20 tuổi đọc はたち"},
+{k:"学",hv:"HỌC",vn:"học",on:"ガク",kun:"まな(ぶ)",alone:"✗ (ở trình độ này)",c:["学生|がくせい|gakusei|học sinh, sinh viên","大学|だいがく|daigaku|trường đại học","学校|がっこう|gakkou|trường học"],note:"学校 đọc がっこう (có っ), không phải がくこう"},
+{k:"生",hv:"SINH",vn:"sinh, sống",on:"セイ",kun:"い(きる)",alone:"✗ (ở trình độ này)",c:["学生|がくせい|gakusei|học sinh, sinh viên","先生|せんせい|sensei|thầy, cô giáo"],note:"先生 = người sinh ra trước → thầy cô"},
+{k:"校",hv:"HIỆU",vn:"trường",on:"コウ",kun:"–",alone:"✗",c:["学校|がっこう|gakkou|trường học","高校|こうこう|koukou|trường cấp ba"],note:""},
+{k:"日",hv:"NHẬT",vn:"ngày, mặt trời",on:"ニチ・ニ",kun:"ひ・か",alone:"ひ (hi) – ngày, mặt trời",c:["日本|にほん|nihon|Nhật Bản","日本語|にほんご|nihongo|tiếng Nhật","毎日|まいにち|mainichi|mỗi ngày","誕生日|たんじょうび|tanjoubi|sinh nhật","一日|ついたち|tsuitachi|mùng 1 (いちにち = 1 ngày)","二日|ふつか|futsuka|mùng 2 / 2 ngày"],note:"日本 → に · 毎日 → にち · 誕生日 → び · ngày 2–10 → か"},
+{k:"本",hv:"BẢN",vn:"gốc, sách",on:"ホン",kun:"もと",alone:"ほん (hon) – sách (ngoại lệ: đứng một mình vẫn đọc On)",c:["日本|にほん|nihon|Nhật Bản","日本語|にほんご|nihongo|tiếng Nhật"],note:""},
+{k:"語",hv:"NGỮ",vn:"ngôn ngữ",on:"ゴ",kun:"かた(る)",alone:"✗",c:["日本語|にほんご|nihongo|tiếng Nhật","英語|えいご|eigo|tiếng Anh","ベトナム語|ベトナムご|betonamugo|tiếng Việt"],note:""}],
+2:[
+{k:"一",hv:"NHẤT",vn:"một (1)",on:"イチ",kun:"ひと(つ)",alone:"いち (ichi)",c:["一つ|ひとつ|hitotsu|1 cái","一月|いちがつ|ichigatsu|tháng 1","一日|ついたち|tsuitachi|mùng 1 (いちにち = 1 ngày)","一人|ひとり|hitori|1 người","一才|いっさい|issai|1 tuổi","一万|いちまん|ichiman|10.000"],note:""},
+{k:"二",hv:"NHỊ",vn:"hai (2)",on:"ニ",kun:"ふた(つ)",alone:"に (ni)",c:["二つ|ふたつ|futatsu|2 cái","二月|にがつ|nigatsu|tháng 2","二日|ふつか|futsuka|mùng 2","二人|ふたり|futari|2 người","二十才|はたち|hatachi|20 tuổi"],note:""},
+{k:"三",hv:"TAM",vn:"ba (3)",on:"サン",kun:"み(っつ)",alone:"さん (san)",c:["三つ|みっつ|mittsu|3 cái","三月|さんがつ|sangatsu|tháng 3","三日|みっか|mikka|mùng 3","三人|さんにん|sannin|3 người","三百|さんびゃく|sanbyaku|300","三千|さんぜん|sanzen|3.000","三階|さんがい|sangai|tầng 3"],note:"300 → びゃく · 3.000 → ぜん · tầng 3 → がい"},
+{k:"四",hv:"TỨ",vn:"bốn (4)",on:"シ",kun:"よん・よ(っつ)",alone:"よん (yon)",c:["四つ|よっつ|yottsu|4 cái","四月|しがつ|shigatsu|tháng 4","四日|よっか|yokka|mùng 4","四人|よにん|yonin|4 người","四百|よんひゃく|yonhyaku|400"],note:"Tháng 4 là しがつ, không phải よんがつ"},
+{k:"五",hv:"NGŨ",vn:"năm (5)",on:"ゴ",kun:"いつ(つ)",alone:"ご (go)",c:["五つ|いつつ|itsutsu|5 cái","五月|ごがつ|gogatsu|tháng 5","五日|いつか|itsuka|mùng 5","五人|ごにん|gonin|5 người"],note:""},
+{k:"六",hv:"LỤC",vn:"sáu (6)",on:"ロク",kun:"む(っつ)",alone:"ろく (roku)",c:["六つ|むっつ|muttsu|6 cái","六月|ろくがつ|rokugatsu|tháng 6","六日|むいか|muika|mùng 6","六百|ろっぴゃく|roppyaku|600","六階|ろっかい|rokkai|tầng 6"],note:"600 → ろっぴゃく"},
+{k:"七",hv:"THẤT",vn:"bảy (7)",on:"シチ",kun:"なな(つ)",alone:"なな (nana)",c:["七つ|ななつ|nanatsu|7 cái","七月|しちがつ|shichigatsu|tháng 7","七日|なのか|nanoka|mùng 7","七人|ななにん|nananin|7 người"],note:"Tháng 7 là しちがつ"},
+{k:"八",hv:"BÁT",vn:"tám (8)",on:"ハチ",kun:"や(っつ)",alone:"はち (hachi)",c:["八つ|やっつ|yattsu|8 cái","八月|はちがつ|hachigatsu|tháng 8","八日|ようか|youka|mùng 8","八才|はっさい|hassai|8 tuổi","八百|はっぴゃく|happyaku|800","八千|はっせん|hassen|8.000","八階|はっかい|hakkai|tầng 8"],note:"800 → はっぴゃく · 8.000 → はっせん"},
+{k:"九",hv:"CỬU",vn:"chín (9)",on:"キュウ・ク",kun:"ここの(つ)",alone:"きゅう (kyuu)",c:["九つ|ここのつ|kokonotsu|9 cái","九月|くがつ|kugatsu|tháng 9","九日|ここのか|kokonoka|mùng 9","九人|きゅうにん|kyuunin|9 người"],note:"Tháng 9 là くがつ"},
+{k:"十",hv:"THẬP",vn:"mười (10)",on:"ジュウ",kun:"とお",alone:"じゅう (juu)",c:["十|とお|too|10 cái (không có つ)","十月|じゅうがつ|juugatsu|tháng 10","十日|とおか|tooka|mùng 10","十才|じゅっさい|jussai|10 tuổi","十階|じゅっかい|jukkai|tầng 10"],note:""},
+{k:"百",hv:"BÁCH",vn:"một trăm (100)",on:"ヒャク",kun:"–",alone:"ひゃく (hyaku)",c:["百円|ひゃくえん|hyakuen|100 yên","三百|さんびゃく|sanbyaku|300","六百|ろっぴゃく|roppyaku|600","八百|はっぴゃく|happyaku|800"],note:"100 không nói いちひゃく"},
+{k:"千",hv:"THIÊN",vn:"một nghìn (1.000)",on:"セン",kun:"–",alone:"せん (sen)",c:["千円|せんえん|senen|1.000 yên","三千|さんぜん|sanzen|3.000","八千|はっせん|hassen|8.000"],note:"1.000 không nói いちせん"},
+{k:"万",hv:"VẠN",vn:"mười nghìn (10.000)",on:"マン",kun:"–",alone:"✗ phải có số đứng trước",c:["一万|いちまん|ichiman|10.000","一万円|いちまんえん|ichimanen|10.000 yên","三万|さんまん|sanman|30.000"],note:"10.000 bắt buộc có いち"},
+{k:"円",hv:"VIÊN",vn:"yên (tiền Nhật)",on:"エン",kun:"–",alone:"えん (en) – yên",c:["百円|ひゃくえん|hyakuen|100 yên","千円|せんえん|senen|1.000 yên","一万円|いちまんえん|ichimanen|10.000 yên"],note:""}],
+3:[
+{k:"月",hv:"NGUYỆT",vn:"mặt trăng, tháng",on:"ゲツ・ガツ",kun:"つき",alone:"つき (tsuki) – mặt trăng",c:["月曜日|げつようび|getsuyoubi|thứ hai","一月|いちがつ|ichigatsu|tháng 1","毎月|まいつき|maitsuki|mỗi tháng"],note:"Thứ hai → げつ · Tháng → がつ · 毎月 → つき"},
+{k:"火",hv:"HỎA",vn:"lửa",on:"カ",kun:"ひ",alone:"ひ (hi) – lửa",c:["火曜日|かようび|kayoubi|thứ ba"],note:""},
+{k:"水",hv:"THỦY",vn:"nước",on:"スイ",kun:"みず",alone:"みず (mizu) – nước",c:["水曜日|すいようび|suiyoubi|thứ tư"],note:""},
+{k:"木",hv:"MỘC",vn:"cây",on:"モク",kun:"き",alone:"き (ki) – cây",c:["木曜日|もくようび|mokuyoubi|thứ năm"],note:""},
+{k:"金",hv:"KIM",vn:"vàng, tiền",on:"キン",kun:"かね",alone:"（お）かね (okane) – tiền",c:["金曜日|きんようび|kinyoubi|thứ sáu"],note:""},
+{k:"土",hv:"THỔ",vn:"đất",on:"ド",kun:"つち",alone:"つち (tsuchi) – đất",c:["土曜日|どようび|doyoubi|thứ bảy"],note:""},
+{k:"曜",hv:"DIỆU",vn:"ngày trong tuần",on:"ヨウ",kun:"–",alone:"✗",c:["曜日|ようび|youbi|thứ (trong tuần)","日曜日|にちようび|nichiyoubi|chủ nhật","何曜日|なんようび|nanyoubi|thứ mấy"],note:""},
+{k:"時",hv:"THỜI",vn:"thời gian, giờ",on:"ジ",kun:"とき",alone:"とき (toki) – lúc, khi",c:["八時|はちじ|hachiji|8 giờ","四時|よじ|yoji|4 giờ (đặc biệt)","七時|しちじ|shichiji|7 giờ","九時|くじ|kuji|9 giờ","何時|なんじ|nanji|mấy giờ","時間|じかん|jikan|thời gian"],note:"4 giờ → よじ · 7 giờ → しちじ · 9 giờ → くじ"},
+{k:"分",hv:"PHÂN",vn:"phút, phần",on:"フン・プン",kun:"わ(かる)",alone:"✗ (nghĩa phút)",c:["五分|ごふん|gofun|5 phút","一分|いっぷん|ippun|1 phút","三分|さんぷん|sanpun|3 phút","十分|じゅっぷん|juppun|10 phút","何分|なんぷん|nanpun|mấy phút"],note:"1, 3, 4, 6, 8, 10 → ぷん · 2, 5, 7, 9 → ふん"},
+{k:"半",hv:"BÁN",vn:"một nửa, rưỡi",on:"ハン",kun:"なか(ば)",alone:"✗",c:["八時半|はちじはん|hachiji han|8 giờ rưỡi","十一時半|じゅういちじはん|juuichiji han|11 giờ rưỡi","半分|はんぶん|hanbun|một nửa"],note:""},
+{k:"毎",hv:"MỖI",vn:"mỗi",on:"マイ",kun:"–",alone:"✗",c:["毎日|まいにち|mainichi|mỗi ngày","毎朝|まいあさ|maiasa|mỗi sáng","毎晩|まいばん|maiban|mỗi tối","毎月|まいつき|maitsuki|mỗi tháng"],note:""}]};
+
+const GRAMMAR={
+1:[
+{s:"N1 は N2 です",m:"N1 là N2",f:["私は学生です。","watashi wa gakusei desu","Tôi là sinh viên."],g:["学生です。","gakusei desu","Là sinh viên."]},
+{s:"N1 は N2 ではありません / じゃありません",m:"N1 không phải là N2",f:["私はアメリカ人ではありません。","watashi wa amerikajin dewa arimasen","Tôi không phải là người Mỹ."],g:["アメリカ人じゃありません。","amerikajin ja arimasen","Không phải người Mỹ."]},
+{s:"N1 は N2 ですか",m:"N1 có phải là N2 không?",q:["ワンさんは学生ですか。","wan-san wa gakusei desu ka","Bạn Wan là sinh viên phải không?"],f:["はい、ワンさんは学生です。 / いいえ、ワンさんは学生ではありません。","hai, wan-san wa gakusei desu / iie, wan-san wa gakusei dewa arimasen","Vâng, Wan là sinh viên / Không, Wan không phải sinh viên."],g:["はい、学生です。 / いいえ、学生ではありません。","hai, gakusei desu / iie, gakusei dewa arimasen","Vâng, là sinh viên / Không, không phải."]},
+{s:"（お）くに は どちら ですか",m:"Đất nước của bạn ở đâu? (Bạn là người nước nào?)",q:["おくにはどちらですか。","okuni wa dochira desu ka","Bạn đến từ nước nào?"],f:["私のくにはベトナムです。","watashi no kuni wa betonamu desu","Đất nước của tôi là Việt Nam."],g:["ベトナムです。","betonamu desu","Việt Nam."]},
+{s:"たんじょうび は いつ ですか",m:"Sinh nhật là khi nào?",q:["誕生日はいつですか。","tanjoubi wa itsu desu ka","Sinh nhật của bạn là khi nào?"],f:["私の誕生日は四月八日です。","watashi no tanjoubi wa shigatsu youka desu","Sinh nhật tôi là ngày 8 tháng 4."],g:["四月八日です。","shigatsu youka desu","Ngày 8 tháng 4."]},
+{s:"しゅみ は 何 ですか",m:"Sở thích là gì?",q:["しゅみは何ですか。","shumi wa nan desu ka","Sở thích của bạn là gì?"],f:["私のしゅみはサッカーです。","watashi no shumi wa sakkaa desu","Sở thích của tôi là bóng đá."],g:["サッカーです。","sakkaa desu","Bóng đá."]},
+{s:"何才 ですか",m:"Bao nhiêu tuổi?",q:["何才ですか。","nansai desu ka","Bạn bao nhiêu tuổi?"],f:["私は二十才です。","watashi wa hatachi desu","Tôi 20 tuổi."],g:["二十才です。","hatachi desu","20 tuổi."]},
+{s:"Tổ chức の Nghề nghiệp",m:"Nghề nghiệp của tổ chức nào (の = của)",q:["おしごとは？","oshigoto wa?","Công việc của bạn là gì?"],f:["私はFPT大学の学生です。","watashi wa FPT daigaku no gakusei desu","Tôi là sinh viên trường đại học FPT."],g:["FPT大学の学生です。","FPT daigaku no gakusei desu","Sinh viên đại học FPT."]},
+{s:"N1 と N2",m:"N1 và N2",q:["しゅみは何ですか。","shumi wa nan desu ka","Sở thích là gì?"],f:["私のしゅみはりょこうとえいがです。","watashi no shumi wa ryokou to eiga desu","Sở thích của tôi là du lịch và phim ảnh."],g:["りょこうとえいがです。","ryokou to eiga desu","Du lịch và phim ảnh."]},
+{s:"A1 は B です。A2 も B です。",m:"A2 cũng là B",q:["ワンさんのしゅみはりょうりです。","wan-san no shumi wa ryouri desu","Sở thích của Wan là nấu ăn."],f:["私のしゅみもりょうりです。","watashi no shumi mo ryouri desu","Sở thích của tôi cũng là nấu ăn."],g:["私もりょうりです。","watashi mo ryouri desu","Tôi cũng là nấu ăn."]}],
+2:[
+{s:"これ / それ / あれ は 何 ですか",m:"Cái này / đó / kia là gì?",q:["これは何ですか。","kore wa nan desu ka","Cái này là gì?"],f:["それはかばんです。","sore wa kaban desu","Cái đó là túi xách."],g:["かばんです。","kaban desu","Túi xách."]},
+{s:"N は どこ ですか → ここ / そこ / あそこ",m:"N ở đâu?",q:["トイレはどこですか。","toire wa doko desu ka","Toilet ở đâu?"],f:["トイレはあそこです。","toire wa asoko desu","Toilet ở đằng kia."],g:["あそこです。","asoko desu","Ở đằng kia."]},
+{s:"N は どちら ですか → こちら / そちら / あちら",m:"N ở phía nào? (lịch sự)",q:["カメラはどちらですか。","kamera wa dochira desu ka","Máy ảnh ở phía nào ạ?"],f:["カメラはそちらです。","kamera wa sochira desu","Máy ảnh ở phía đó ạ."],g:["そちらです。","sochira desu","Phía đó ạ."]},
+{s:"N は 何階 ですか",m:"N ở tầng mấy?",q:["レストランは何階ですか。","resutoran wa nangai desu ka","Nhà hàng ở tầng mấy?"],f:["レストランは八階です。","resutoran wa hakkai desu","Nhà hàng ở tầng 8."],g:["八階です。","hakkai desu","Tầng 8."]},
+{s:"この / その / あの N は いくら ですか",m:"N này bao nhiêu tiền?",q:["この時計はいくらですか。","kono tokei wa ikura desu ka","Đồng hồ này bao nhiêu tiền?"],f:["その時計は八千五百円です。","sono tokei wa hassen gohyaku en desu","Đồng hồ đó 8.500 yên."],g:["八千五百円です。","hassen gohyaku en desu","8.500 yên."]},
+{s:"どこの N",m:"N của nước / nơi nào (xuất xứ)",q:["これはどこのビールですか。","kore wa doko no biiru desu ka","Đây là bia nước nào?"],f:["それはドイツのビールです。","sore wa doitsu no biiru desu","Đó là bia Đức."],g:["ドイツのです。","doitsu no desu","Của Đức."]},
+{s:"何の N",m:"N gì, về cái gì (loại / nội dung)",q:["これは何のカレーですか。","kore wa nan no karee desu ka","Đây là cà ri gì?"],f:["それはえびのカレーです。","sore wa ebi no karee desu","Đó là cà ri tôm."],g:["えびのカレーです。","ebi no karee desu","Cà ri tôm."]},
+{s:"誰の N",m:"N của ai (sở hữu)",q:["これは誰のさいふですか。","kore wa dare no saifu desu ka","Đây là ví của ai?"],f:["それはリーさんのさいふです。","sore wa rii-san no saifu desu","Đó là ví của chị Lee."],g:["リーさんのです。","rii-san no desu","Của chị Lee."]},
+{s:"「từ」は [ngôn ngữ] で 何ですか",m:"Từ đó trong tiếng ~ là gì?",q:["「やさい」はベトナム語で何ですか。","\"yasai\" wa betonamugo de nan desu ka","\"Yasai\" tiếng Việt là gì?"],f:["「やさい」はベトナム語で「rau củ」です。","\"yasai\" wa betonamugo de \"rau củ\" desu","\"Yasai\" tiếng Việt là \"rau củ\"."],g:["「rau củ」です。","\"rau củ\" desu","\"Rau củ\"."]},
+{s:"N を [số]つ ください",m:"Cho tôi (số lượng) N",q:["ご注文、どうぞ。","gochuumon, douzo","Xin mời gọi món."],f:["カレーを一つとコーヒーを二つください。","karee o hitotsu to koohii o futatsu kudasai","Cho tôi 1 cà ri và 2 cà phê."],g:["カレーを一つください。","karee o hitotsu kudasai","Cho tôi 1 cà ri."]}],
+3:[
+{s:"V-ます / V-ません",m:"Động từ khẳng định / phủ định (hiện tại, tương lai)",q:["毎日、朝ごはんを食べますか。","mainichi, asagohan o tabemasu ka","Mỗi ngày bạn có ăn sáng không?"],f:["はい、毎日、朝ごはんを食べます。 / いいえ、朝ごはんを食べません。","hai, mainichi, asagohan o tabemasu / iie, asagohan o tabemasen","Có, ngày nào tôi cũng ăn sáng / Không, tôi không ăn sáng."],g:["はい、食べます。 / いいえ、食べません。","hai, tabemasu / iie, tabemasen","Có, tôi ăn / Không, tôi không ăn."]},
+{s:"Nơi chốn へ 行きます / 来ます / 帰ります",m:"Đi / đến / về đâu đó (へ đọc là e)",q:["冬休み、どこへ行きますか。","fuyuyasumi, doko e ikimasu ka","Kỳ nghỉ đông bạn đi đâu?"],f:["冬休み、北海道へ行きます。","fuyuyasumi, hokkaidou e ikimasu","Kỳ nghỉ đông tôi đi Hokkaido."],g:["北海道へ行きます。","hokkaidou e ikimasu","Đi Hokkaido."]},
+{s:"N を V",m:"Làm cái gì đó (を đọc là o)",q:["何を飲みますか。","nani o nomimasu ka","Bạn uống gì?"],f:["ビールを飲みます。","biiru o nomimasu","Tôi uống bia."],g:["ビールです。","biiru desu","Bia."]},
+{s:"Thời điểm に V",m:"Làm gì vào lúc nào (chỉ dùng に với thời gian có số cụ thể, thứ trong tuần)",q:["毎朝、何時に起きますか。","maiasa, nanji ni okimasu ka","Mỗi sáng bạn dậy lúc mấy giờ?"],f:["毎朝、七時に起きます。","maiasa, shichiji ni okimasu","Mỗi sáng tôi dậy lúc 7 giờ."],g:["七時です。","shichiji desu","7 giờ."]},
+{s:"Không dùng に: きょう, あした, きのう, らいしゅう, ことし…",m:"Mùa (はる, なつ…) dùng に hay không đều được",q:["あした、何をしますか。","ashita, nani o shimasu ka","Ngày mai bạn làm gì?"],f:["あした、おはなみをします。","ashita, ohanami o shimasu","Ngày mai tôi đi ngắm hoa. (✘ あしたに)"],g:["おはなみです。","ohanami desu","Ngắm hoa."]},
+{s:"Nơi chốn で V",m:"Làm gì ở đâu",q:["どこで本を読みますか。","doko de hon o yomimasu ka","Bạn đọc sách ở đâu?"],f:["図書館で本を読みます。","toshokan de hon o yomimasu","Tôi đọc sách ở thư viện."],g:["図書館です。","toshokan desu","Ở thư viện."]},
+{s:"Phương tiện で V",m:"Làm gì bằng phương tiện gì",q:["学校へ何で行きますか。","gakkou e nan de ikimasu ka","Bạn đến trường bằng gì?"],f:["バスで学校へ行きます。","basu de gakkou e ikimasu","Tôi đến trường bằng xe buýt."],g:["バスで行きます。","basu de ikimasu","Bằng xe buýt."]},
+{s:"Thời điểm から Thời điểm まで",m:"Từ … đến …",q:["毎日、何時から何時まで勉強しますか。","mainichi, nanji kara nanji made benkyou shimasu ka","Mỗi ngày bạn học từ mấy giờ đến mấy giờ?"],f:["毎日、八時から十時まで勉強します。","mainichi, hachiji kara juuji made benkyou shimasu","Mỗi ngày tôi học từ 8 giờ đến 10 giờ."],g:["八時から十時までです。","hachiji kara juuji made desu","Từ 8 giờ đến 10 giờ."]},
+{s:"N1 や N2 など",m:"Chẳng hạn như N1, N2…",q:["毎朝、何を食べますか。","maiasa, nani o tabemasu ka","Mỗi sáng bạn ăn gì?"],f:["毎朝、パンやサラダなどを食べます。","maiasa, pan ya sarada nado o tabemasu","Mỗi sáng tôi ăn bánh mì, salad…"],g:["パンやサラダなどです。","pan ya sarada nado desu","Bánh mì, salad…"]},
+{s:"何も / どこ（へ）も + V-ません",m:"Không … gì cả / không … đâu cả",q:["日曜日、どこへ行きますか。","nichiyoubi, doko e ikimasu ka","Chủ nhật bạn đi đâu?"],f:["日曜日、どこ（へ）も行きません。うちで勉強します。","nichiyoubi, doko (e) mo ikimasen. uchi de benkyou shimasu","Chủ nhật tôi không đi đâu cả. Tôi học ở nhà."],g:["どこも行きません。","doko mo ikimasen","Không đi đâu cả."]}]};
+
+const GQUIZ={
+1:[
+{t:"Hỏi",p:"Hỏi: Bạn đến từ nước nào?",a:["okuni wa dochira desu ka","kuni wa dochira desu ka"],k:"おくにはどちらですか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: Việt Nam)",j:"おくにはどちらですか。",a:["watashi no kuni wa betonamu desu","watashi wa betonamujin desu"],k:"私のくにはベトナムです。"},
+{t:"Trả lời gọn",p:"Trả lời gọn (gợi ý: Việt Nam)",j:"おくにはどちらですか。",a:["betonamu desu","betonamujin desu"],k:"ベトナムです。"},
+{t:"Hỏi",p:"Hỏi: Sinh nhật của bạn là khi nào?",a:["tanjoubi wa itsu desu ka"],k:"誕生日はいつですか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: ngày 8 tháng 4)",j:"誕生日はいつですか。",a:["watashi no tanjoubi wa shigatsu youka desu"],k:"私の誕生日は四月八日です。"},
+{t:"Trả lời gọn",p:"Trả lời gọn (gợi ý: mùng 1 tháng 9)",j:"誕生日はいつですか。",a:["kugatsu tsuitachi desu"],k:"九月一日です。"},
+{t:"Hỏi",p:"Hỏi: Sở thích của bạn là gì?",a:["shumi wa nan desu ka"],k:"しゅみは何ですか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: bóng đá)",j:"しゅみは何ですか。",a:["watashi no shumi wa sakkaa desu"],k:"私のしゅみはサッカーです。"},
+{t:"Trả lời gọn",p:"Trả lời gọn (gợi ý: du lịch và phim ảnh)",j:"しゅみは何ですか。",a:["ryokou to eiga desu"],k:"りょこうとえいがです。"},
+{t:"Hỏi",p:"Hỏi: Bạn bao nhiêu tuổi?",a:["nansai desu ka"],k:"何才ですか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: 20 tuổi)",j:"何才ですか。",a:["watashi wa hatachi desu","watashi wa nijussai desu"],k:"私は二十才です。"},
+{t:"Hỏi",p:"Hỏi: Bạn Wan là sinh viên phải không?",a:["wan san wa gakusei desu ka"],k:"ワンさんは学生ですか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời \"Vâng\" đầy đủ",j:"ワンさんは学生ですか。",a:["hai wan san wa gakusei desu"],k:"はい、ワンさんは学生です。"},
+{t:"Trả lời gọn",p:"Trả lời \"Không\" gọn",j:"ワンさんは学生ですか。",a:["iie gakusei dewa arimasen","iie gakusei ja arimasen"],k:"いいえ、学生ではありません。"},
+{t:"Phủ định",p:"Nói: Tôi không phải người Mỹ. Tôi là người Việt Nam.",a:["watashi wa amerikajin dewa arimasen betonamujin desu","watashi wa amerikajin ja arimasen betonamujin desu","watashi wa amerikajin dewa arimasen watashi wa betonamujin desu","watashi wa amerikajin ja arimasen watashi wa betonamujin desu"],k:"私はアメリカ人ではありません。ベトナム人です。"},
+{t:"Tổ chức の",p:"Nói: Tôi là sinh viên trường đại học FPT.",a:["watashi wa fpt daigaku no gakusei desu"],k:"私はFPT大学の学生です。"},
+{t:"も",p:"Nói: Sở thích của tôi cũng là nấu ăn.",j:"ワンさんのしゅみはりょうりです。",a:["watashi no shumi mo ryouri desu"],k:"私のしゅみもりょうりです。"},
+{t:"Khẳng định",p:"Nói: Tôi là người Nhật.",a:["watashi wa nihonjin desu"],k:"私は日本人です。"}],
+2:[
+{t:"Hỏi",p:"Hỏi: Cái này là gì?",a:["kore wa nan desu ka"],k:"これは何ですか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: túi xách)",j:"これは何ですか。",a:["sore wa kaban desu"],k:"それはかばんです。"},
+{t:"Hỏi",p:"Hỏi: Xin lỗi, toilet ở đâu?",a:["sumimasen toire wa doko desu ka","toire wa doko desu ka"],k:"すみません、トイレはどこですか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: ở đằng kia)",j:"トイレはどこですか。",a:["toire wa asoko desu"],k:"トイレはあそこです。"},
+{t:"Trả lời gọn",p:"Trả lời gọn (gợi ý: ở đằng kia)",j:"トイレはどこですか。",a:["asoko desu"],k:"あそこです。"},
+{t:"Hỏi",p:"Hỏi lịch sự: Máy ảnh ở phía nào ạ?",a:["kamera wa dochira desu ka"],k:"カメラはどちらですか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: phía đó ạ)",j:"カメラはどちらですか。",a:["kamera wa sochira desu"],k:"カメラはそちらです。"},
+{t:"Hỏi",p:"Hỏi: Nhà hàng ở tầng mấy?",a:["resutoran wa nangai desu ka"],k:"レストランは何階ですか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: tầng 8)",j:"レストランは何階ですか。",a:["resutoran wa hakkai desu"],k:"レストランは八階です。"},
+{t:"Trả lời gọn",p:"Trả lời gọn (gợi ý: tầng 3)",j:"くつやは何階ですか。",a:["sangai desu"],k:"三階です。"},
+{t:"Hỏi",p:"Hỏi: Đồng hồ này bao nhiêu tiền?",a:["kono tokei wa ikura desu ka"],k:"この時計はいくらですか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: 8.500 yên)",j:"この時計はいくらですか。",a:["sono tokei wa hassen gohyaku en desu"],k:"その時計は八千五百円です。"},
+{t:"Trả lời gọn",p:"Trả lời gọn (gợi ý: 3.000 yên)",j:"このTシャツはいくらですか。",a:["sanzen en desu"],k:"三千円です。"},
+{t:"Hỏi",p:"Hỏi: Đây là bia nước nào?",a:["kore wa doko no biiru desu ka"],k:"これはどこのビールですか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: Đức)",j:"これはどこのビールですか。",a:["sore wa doitsu no biiru desu"],k:"それはドイツのビールです。"},
+{t:"Hỏi",p:"Hỏi: Đây là cà ri gì?",a:["kore wa nan no karee desu ka"],k:"これは何のカレーですか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: tôm)",j:"これは何のカレーですか。",a:["sore wa ebi no karee desu"],k:"それはえびのカレーです。"},
+{t:"Hỏi",p:"Hỏi: Đây là ví của ai?",a:["kore wa dare no saifu desu ka"],k:"これは誰のさいふですか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: của chị Lee)",j:"これは誰のさいふですか。",a:["sore wa rii san no saifu desu"],k:"それはリーさんのさいふです。"},
+{t:"Trả lời gọn",p:"Trả lời gọn (gợi ý: của chị Lee)",j:"これは誰のさいふですか。",a:["rii san no desu"],k:"リーさんのです。"},
+{t:"Phủ định",p:"Nói: Cái ví này không phải của tôi.",a:["kono saifu wa watashi no dewa arimasen","kono saifu wa watashi no ja arimasen"],k:"このさいふは私のではありません。"},
+{t:"Hỏi",p:"Hỏi: \"Yasai\" trong tiếng Việt là gì?",a:["yasai wa betonamugo de nan desu ka"],k:"「やさい」はベトナム語で何ですか。"},
+{t:"Nhân viên",p:"Nhân viên nói: Xin mời gọi món.",a:["gochuumon douzo","gochuumon wa"],k:"ご注文、どうぞ。"},
+{t:"Gọi món",p:"Gọi món: Cho tôi 1 phần cà ri.",j:"ご注文、どうぞ。",a:["karee o hitotsu kudasai"],k:"カレーを一つください。"},
+{t:"Gọi món",p:"Gọi món: Cho tôi 2 cà phê và 1 bánh ngọt.",j:"ご注文、どうぞ。",a:["koohii o futatsu to keeki o hitotsu kudasai"],k:"コーヒーを二つとケーキを一つください。"}],
+3:[
+{t:"Hỏi",p:"Hỏi: Mỗi ngày bạn có ăn sáng không?",a:["mainichi asagohan o tabemasu ka","asagohan o tabemasu ka"],k:"毎日、朝ごはんを食べますか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời \"Có\" đầy đủ",j:"毎日、朝ごはんを食べますか。",a:["hai mainichi asagohan o tabemasu","hai asagohan o tabemasu"],k:"はい、毎日、朝ごはんを食べます。"},
+{t:"Trả lời gọn",p:"Trả lời \"Không\" gọn",j:"毎日、朝ごはんを食べますか。",a:["iie tabemasen"],k:"いいえ、食べません。"},
+{t:"Hỏi",p:"Hỏi: Kỳ nghỉ đông bạn đi đâu?",a:["fuyuyasumi doko e ikimasu ka","doko e ikimasu ka"],k:"冬休み、どこへ行きますか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: Hokkaido)",j:"冬休み、どこへ行きますか。",a:["fuyuyasumi hokkaidou e ikimasu","hokkaidou e ikimasu"],k:"冬休み、北海道へ行きます。"},
+{t:"Phủ định",p:"Nói: Kỳ nghỉ hè tôi không về nước.",a:["natsuyasumi kuni e kaerimasen"],k:"夏休み、国へ帰りません。"},
+{t:"Hỏi",p:"Hỏi: Bạn uống gì?",a:["nani o nomimasu ka"],k:"何を飲みますか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: bia)",j:"何を飲みますか。",a:["biiru o nomimasu"],k:"ビールを飲みます。"},
+{t:"Hỏi",p:"Hỏi: Mỗi sáng bạn dậy lúc mấy giờ?",a:["maiasa nanji ni okimasu ka"],k:"毎朝、何時に起きますか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: 7 giờ)",j:"毎朝、何時に起きますか。",a:["maiasa shichiji ni okimasu","shichiji ni okimasu"],k:"毎朝、七時に起きます。"},
+{t:"Trả lời gọn",p:"Trả lời gọn (gợi ý: 11 giờ rưỡi)",j:"毎晩、何時に寝ますか。",a:["juuichiji han desu","juuichiji han ni nemasu"],k:"十一時半です。"},
+{t:"に",p:"Nói: Thứ hai tôi đi ngân hàng.",a:["getsuyoubi ni ginkou e ikimasu"],k:"月曜日に銀行へ行きます。"},
+{t:"Không dùng に",p:"Nói: Ngày mai tôi đi ngắm hoa.",a:["ashita ohanami o shimasu"],k:"あした、おはなみをします。"},
+{t:"Hỏi",p:"Hỏi: Bạn đọc sách ở đâu?",a:["doko de hon o yomimasu ka"],k:"どこで本を読みますか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: thư viện)",j:"どこで本を読みますか。",a:["toshokan de hon o yomimasu"],k:"図書館で本を読みます。"},
+{t:"Hỏi",p:"Hỏi: Bạn đến trường bằng gì?",a:["gakkou e nan de ikimasu ka","nan de gakkou e ikimasu ka","nan de ikimasu ka"],k:"学校へ何で行きますか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: xe buýt)",j:"学校へ何で行きますか。",a:["basu de gakkou e ikimasu","basu de ikimasu"],k:"バスで学校へ行きます。"},
+{t:"Hỏi",p:"Hỏi: Mỗi ngày bạn học từ mấy giờ đến mấy giờ?",a:["mainichi nanji kara nanji made benkyou shimasu ka","nanji kara nanji made benkyou shimasu ka"],k:"毎日、何時から何時まで勉強しますか。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: 8 giờ đến 10 giờ)",j:"毎日、何時から何時まで勉強しますか。",a:["mainichi hachiji kara juuji made benkyou shimasu","hachiji kara juuji made benkyou shimasu"],k:"毎日、八時から十時まで勉強します。"},
+{t:"から まで",p:"Nói: Từ thứ hai đến thứ năm, tôi làm thêm ở cửa hàng tiện lợi.",a:["getsuyoubi kara mokuyoubi made konbini de arubaito o shimasu"],k:"月曜日から木曜日までコンビニでアルバイトをします。"},
+{t:"Trả lời đầy đủ",p:"Trả lời đầy đủ (gợi ý: bánh mì, salad…)",j:"毎朝、何を食べますか。",a:["maiasa pan ya sarada nado o tabemasu","pan ya sarada nado o tabemasu"],k:"毎朝、パンやサラダなどを食べます。"},
+{t:"や など",p:"Nói: Ở trường tôi học tiếng Anh, tiếng Nhật…",a:["gakkou de eigo ya nihongo nado o benkyou shimasu"],k:"学校で英語や日本語などを勉強します。"},
+{t:"どこも",p:"Trả lời: không đi đâu cả",j:"日曜日、どこへ行きますか。",a:["nichiyoubi doko mo ikimasen","doko mo ikimasen","nichiyoubi doko e mo ikimasen","doko e mo ikimasen"],k:"日曜日、どこも行きません。"},
+{t:"何も",p:"Trả lời: không ăn gì cả",j:"毎晩、何を食べますか。",a:["maiban nani mo tabemasen","nani mo tabemasen"],k:"毎晩、何も食べません。"}]};
+
+const app=document.getElementById("app");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const isJP=s=>/[\u3040-\u30ff\u4e00-\u9faf]/.test(s);
+function strictRo(s){return s.toLowerCase().replace(/ā/g,"aa").replace(/ī/g,"ii").replace(/ū/g,"uu").replace(/ē/g,"ee").replace(/ō/g,"ou").replace(/\bwo\b/g,"o").replace(/[^a-z0-9]/g,"").replace(/oo/g,"ou")}
+function looseRo(s){return strictRo(s).replace(/ou/g,"o").replace(/uu/g,"u").replace(/aa/g,"a").replace(/ii/g,"i").replace(/ee/g,"e").replace(/nn/g,"n")}
+function normKana(s){return s.replace(/[\u30a1-\u30f6]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60)).replace(/[\s～〜~、。？?！!「」『』（）()・]/g,"").toLowerCase()}
+function normVN(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/[^a-z0-9]/g,"")}
+function optForms(s){return s.includes("(お)")||s.includes("（お）")||s.includes("(o)")?[s.replace(/[(（](お|o)[)）]/,"$1"),s.replace(/[(（](お|o)[)）]/,"")]:[s]}
+function checkRomaji(input,answers){const s=strictRo(input),l=looseRo(input);if(answers.some(a=>strictRo(a)===s))return"ok";if(answers.some(a=>looseRo(a)===l))return"warn";return"no"}
+function checkVN(input,vn){const x=normVN(input);if(!x)return"no";for(const alt of vn.split("/")){const a=normVN(alt.replace("~",""));if(!a)continue;if(x===a)return"ok";if(x.length>=3&&(a.includes(x)&&x.length>=a.length*0.5||x.includes(a)))return"ok"}return"no"}
+const kanaType=w=>/[\u30a0-\u30ff]/.test(w.jp)?"katakana":"hiragana";
+
+function home(){
+  app.innerHTML=`<h1>JPD113 – Ôn tập Bài 1–3</h1><div class="grid">${[1,2,3].map(n=>`
+  <div class="lesson"><h2>Bài ${n}</h2>
+   <div class="sec v"><h3>Từ vựng</h3>
+    <button class="btn" data-go="vlist:${n}">Danh sách</button>
+    <button class="btn" data-go="vflash:${n}">Flashcard</button>
+    <button class="btn fill" data-go="vquiz1:${n}">Kiểm tra: Kana → Nghĩa</button>
+    <button class="btn fill" data-go="vquiz2:${n}">Kiểm tra: Nghĩa → Kana</button></div>
+   <div class="sec k"><h3>Kanji</h3>
+    <button class="btn" data-go="klist:${n}">Danh sách</button>
+    <button class="btn" data-go="kflash:${n}">Flashcard (đơn &amp; ghép)</button>
+    <button class="btn fill" data-go="kquiz1:${n}">Kiểm tra: Kanji → Nghĩa</button>
+    <button class="btn fill" data-go="kquiz2:${n}">Kiểm tra: Kanji → Phiên âm</button></div>
+   <div class="sec g"><h3>Ngữ pháp</h3>
+    <button class="btn" data-go="gview:${n}">Xem ngữ pháp</button>
+    <button class="btn fill" data-go="gquiz:${n}">Kiểm tra (nhập romaji)</button></div>
+  </div>`).join("")}</div>`;
+  app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{const[v,n]=b.dataset.go.split(":");ROUTES[v](+n);window.scrollTo(0,0)});
+}
+const backBtn=`<button class="back" id="back">← Quay lại</button>`;
+function bindBack(){document.getElementById("back").onclick=()=>{home();window.scrollTo(0,0)}}
+
+function vocabList(n){
+  app.innerHTML=`${backBtn}<div class="panel wide"><div class="head"><h2>Từ vựng – Bài ${n}</h2><span class="score">${VOCAB[n].length} từ</span></div><div class="tbl"><table><tr><th>#</th><th>Từ</th><th>Kanji</th><th>Romaji</th><th>Nghĩa</th></tr>${VOCAB[n].map((w,i)=>`<tr><td>${i+1}</td><td style="font-size:18px">${esc(w.jp)}</td><td>${esc(w.kanji)}</td><td class="ro">${esc(w.ro)}</td><td>${esc(w.vn.replace(/\//g,", "))}</td></tr>`).join("")}</table></div></div>`;
+  bindBack();
+}
+
+function flash(title,cards){
+  let order=cards.map((_,i)=>i),i=0,flipped=false;
+  app.innerHTML=`${backBtn}<div class="panel"><div class="head"><h2>${title}</h2><span class="score" id="cnt"></span></div>
+  <div class="card" id="card"></div><p class="hint">Bấm vào thẻ hoặc phím Space để lật · ← → để chuyển thẻ</p>
+  <div class="row"><button id="prev">← Trước</button><button id="flip" class="main">Lật thẻ</button><button id="nxt">Sau →</button></div>
+  <div class="row"><button id="shf">Xáo trộn</button></div></div>`;
+  bindBack();
+  const card=document.getElementById("card");
+  function show(){const c=cards[order[i]];card.innerHTML=flipped?c.back:c.front;document.getElementById("cnt").textContent=`${i+1} / ${cards.length}`}
+  const go=d=>{i=(i+d+cards.length)%cards.length;flipped=false;show()};
+  card.onclick=document.getElementById("flip").onclick=()=>{flipped=!flipped;show()};
+  document.getElementById("prev").onclick=()=>go(-1);
+  document.getElementById("nxt").onclick=()=>go(1);
+  document.getElementById("shf").onclick=()=>{order=shuffle(order);i=0;flipped=false;show()};
+  document.onkeydown=e=>{if(!document.getElementById("card"))return;if(e.key===" "){e.preventDefault();flipped=!flipped;show()}if(e.key==="ArrowRight")go(1);if(e.key==="ArrowLeft")go(-1)};
+  show();
+}
+function vocabFlash(n){
+  flash(`Flashcard từ vựng – Bài ${n}`,VOCAB[n].map(w=>({
+    front:`<div class="front">${esc(w.jp)}</div>${w.kanji?`<div class="sub">${esc(w.kanji)}</div>`:""}`,
+    back:`<div class="meaning">${esc(w.vn.replace(/\//g,", "))}</div><div class="sub">${esc(w.jp)} · <i>${esc(w.ro)}</i>${w.kanji?" · "+esc(w.kanji):""}</div>`})));
+}
+function kanjiFlash(n){
+  flash(`Flashcard Kanji – Bài ${n}`,KANJI[n].map(k=>({
+    front:`<div class="front" style="font-size:90px">${k.k}</div>`,
+    back:`<div class="back"><div class="meaning">${k.k} · ${k.hv} – ${esc(k.vn)}</div>
+     <p style="margin:6px 0"><b>Âm On:</b> ${k.on} &nbsp; <b>Âm Kun:</b> ${k.kun}</p>
+     <p style="margin:6px 0"><b>Đứng một mình:</b> ${esc(k.alone)}</p>
+     ${k.c.length?`<p style="margin:6px 0"><b>Ghép với Hán tự khác:</b></p><ul style="margin:0;padding-left:20px">${k.c.map(x=>{const[w,kn,ro,m]=x.split("|");return`<li><b>${w}</b> ${kn} <span class="ro">(${ro})</span> – ${esc(m)}</li>`}).join("")}</ul>`:""}
+     ${k.note?`<p style="margin:8px 0 0;color:#b45309">Lưu ý: ${esc(k.note)}</p>`:""}</div>`})));
+}
+function kanjiList(n){
+  app.innerHTML=`${backBtn}<div class="panel wide"><div class="head"><h2>Kanji – Bài ${n}</h2><span class="score">${KANJI[n].length} chữ</span></div><div class="tbl"><table>
+  <tr><th>Kanji</th><th>Hán Việt</th><th>Nghĩa</th><th>On / Kun</th><th>Đứng một mình</th><th>Ghép với Hán tự khác</th></tr>
+  ${KANJI[n].map(k=>`<tr><td style="font-size:30px;text-align:center">${k.k}</td><td>${k.hv}</td><td>${esc(k.vn)}</td><td>${k.on}<br>${k.kun}</td><td>${esc(k.alone)}</td><td>${k.c.map(x=>{const[w,kn,ro,m]=x.split("|");return`<b>${w}</b> ${kn} <span class="ro">(${ro})</span> – ${esc(m)}`}).join("<br>")||"–"}${k.note?`<br><span style="color:#b45309">${esc(k.note)}</span>`:""}</td></tr>`).join("")}
+  </table></div></div>`;
+  bindBack();
+}
+
+function gramView(n){
+  const line=(lbl,x)=>x?`<b>${lbl}</b><div>${esc(x[0])}<br><span class="ro">${esc(x[1])}</span><br>${esc(x[2])}</div>`:"";
+  app.innerHTML=`${backBtn}<div class="panel wide"><div class="head"><h2>Ngữ pháp – Bài ${n}</h2></div>
+  ${GRAMMAR[n].map((g,i)=>`<div class="gcard"><h4>${i+1}. ${esc(g.s)}</h4><div class="m">${esc(g.m)}</div><div class="gl">${line("Câu hỏi",g.q)}${line("Đầy đủ",g.f)}${line("Gọn",g.g)}</div></div>`).join("")}
+  ${n==2?`<div class="gcard"><h4>Ghi nhớ</h4><div>Hỏi bằng これ → trả lời bằng それ · Hỏi それ → trả lời これ · あれ → あれ<br>この / その / あの luôn đi kèm danh từ (この時計)</div></div>`:""}
+  </div>`;
+  bindBack();
+}
+
+function quiz(title,items,{placeholder,checker,answerHTML}){
+  let order=shuffle(items.map((_,i)=>i)),i=0,score=0,answered=false,wrong=[];
+  function render(){
+    if(i>=order.length)return finish();
+    const q=items[order[i]];answered=false;
+    app.innerHTML=`${backBtn}<div class="panel"><div class="head"><h2>${title}</h2><span class="score">Câu ${i+1} / ${order.length} · Đúng: ${score}</span></div>
+    ${q.tag?`<div style="text-align:center"><span class="tag">${esc(q.tag)}</span></div>`:""}
+    <p class="q">${q.prompt}</p>${q.jp?`<div class="jp">${esc(q.jp)}</div>`:""}
+    <input type="text" id="ans" placeholder="${placeholder}" autocomplete="off">
+    <div class="err" id="err"></div>
+    <div class="row"><button class="main" id="chk">Kiểm tra</button><button id="shw">Xem đáp án</button><button id="skp">Câu tiếp →</button></div>
+    <div id="fb"></div></div>`;
+    bindBack();
+    const ans=document.getElementById("ans");ans.focus();
+    ans.oninput=()=>document.getElementById("err").textContent="";
+    ans.onkeydown=e=>{if(e.key==="Enter")answered?next():check()};
+    document.getElementById("chk").onclick=check;
+    document.getElementById("shw").onclick=()=>{if(!answered){answered=true;wrong.push(order[i])}fb("info","Đáp án:")};
+    document.getElementById("skp").onclick=()=>{if(!answered)wrong.push(order[i]);next()};
+  }
+  function fb(kind,msg){document.getElementById("fb").innerHTML=`<div class="fb ${kind}">${msg}<br>${answerHTML(items[order[i]])}</div>`}
+  function check(){
+    if(answered)return next();
+    const v=document.getElementById("ans").value.trim();
+    if(!v){document.getElementById("err").textContent="Nhập câu trả lời trước nhé";return}
+    const r=checker(items[order[i]],v);answered=true;
+    if(r==="ok"){score++;fb("ok","Chính xác!")}
+    else if(r==="warn"){score++;fb("warn","Đúng rồi, chú ý trường âm / cách viết:")}
+    else{wrong.push(order[i]);fb("no","Chưa đúng. Đáp án:")}
+  }
+  function next(){i++;render()}
+  function finish(){
+    app.innerHTML=`${backBtn}<div class="panel done"><h2 style="color:#d97706">${title}</h2><div class="big">${score} / ${order.length}</div>
+    <p>${wrong.length?`Có ${wrong.length} câu sai hoặc bỏ qua.`:"Không sai câu nào!"}</p>
+    <div class="row">${wrong.length?`<button class="main" id="rw">Làm lại câu sai</button>`:""}<button id="ra">Làm lại tất cả</button></div></div>`;
+    bindBack();
+    const rw=document.getElementById("rw");
+    if(rw)rw.onclick=()=>{order=shuffle(wrong);wrong=[];i=0;score=0;render()};
+    document.getElementById("ra").onclick=()=>{order=shuffle(items.map((_,k)=>k));wrong=[];i=0;score=0;render()};
+  }
+  render();
+}
+function vocabQuiz1(n){
+  quiz(`Kiểm tra – Bài ${n}`,VOCAB[n].map(w=>({w,prompt:"Nghĩa của từ này là gì?",jp:w.jp})),{
+    placeholder:"Nhập nghĩa tiếng Việt (có dấu hoặc không dấu)",
+    checker:(q,v)=>checkVN(v,q.w.vn),
+    answerHTML:q=>`<span class="big">${esc(q.w.vn.replace(/\//g,", "))}</span><br>${esc(q.w.jp)} · <i>${esc(q.w.ro)}</i>`});
+}
+function vocabQuiz2(n){
+  const list=VOCAB[n];
+  quiz(`Kiểm tra – Bài ${n}`,list.map(w=>({w,prompt:`Viết phiên âm của từ: <b style="color:#b45309">"${esc(w.vn.replace(/\//g,", "))}"</b><br><span class="tag">${kanaType(w)}</span>`})),{
+    placeholder:"Gõ kana (いちご) hoặc romaji (ichigo)",
+    checker:(q,v)=>{
+      const qa=q.w.vn.split("/").map(normVN);const cands=list.filter(x=>x===q.w||x.vn.split("/").map(normVN).some(a=>qa.includes(a)));
+      if(isJP(v)){const iv=normKana(v);return cands.some(x=>[x.jp,x.alt,x.kanji].filter(Boolean).flatMap(optForms).some(f=>normKana(f)===iv))?"ok":"no"}
+      return checkRomaji(v,cands.flatMap(x=>optForms(x.ro)));
+    },
+    answerHTML:q=>`<span class="big">${esc(q.w.jp)}</span>${q.w.kanji?" ("+esc(q.w.kanji)+")":""} · <i>${esc(q.w.ro)}</i>`});
+}
+function gramQuiz(n){
+  quiz(`Ngữ pháp – Bài ${n}`,GQUIZ[n].map(q=>({...q,tag:q.t,prompt:esc(q.p),jp:q.j||""})),{
+    placeholder:"Gõ romaji, vd: toire wa doko desu ka",
+    checker:(q,v)=>checkRomaji(v,q.a),
+    answerHTML:q=>`<span class="big">${esc(q.k)}</span><br><i>${esc(q.a[0])}</i>`});
+}
+function kanjiItems(n){
+  const items=[],seen=new Set();
+  for(const k of KANJI[n]){
+    const a=!k.alone.startsWith("✗")&&k.alone.match(/^(\S+) \(([^)]+)\)/);
+    if(a&&!seen.has(k.k)){seen.add(k.k);items.push({w:k.k,kana:a[1],ro:a[2],vn:k.vn})}
+    for(const x of k.c){const[w,kn,ro,m]=x.split("|");if(!seen.has(w)){seen.add(w);items.push({w,kana:kn,ro,vn:m})}}
+  }
+  return items;
+}
+const kanjiAnswer=q=>`<span class="big">${esc(q.w)}</span> ${esc(q.kana)} · <i>${esc(q.ro)}</i><br>${esc(q.vn)}`;
+function kanjiQuiz1(n){
+  const mean=m=>m.split(/[,/]/).flatMap(x=>{const p=x.match(/^(.*?)\s*\((.*)\)\s*$/);return p?[p[1],p[2]]:[x]}).map(x=>x.trim()).filter(Boolean).join("/");
+  quiz(`Kanji → Nghĩa – Bài ${n}`,kanjiItems(n).map(q=>({...q,prompt:"Nghĩa tiếng Việt của từ này là gì?",jp:q.w})),{
+    placeholder:"Nhập nghĩa tiếng Việt (có dấu hoặc không dấu)",
+    checker:(q,v)=>checkVN(v,mean(q.vn)),
+    answerHTML:kanjiAnswer});
+}
+function kanjiQuiz2(n){
+  quiz(`Kanji → Phiên âm – Bài ${n}`,kanjiItems(n).map(q=>({...q,prompt:"Từ này đọc như thế nào?",jp:q.w})),{
+    placeholder:"Gõ kana (にほん) hoặc romaji (nihon)",
+    checker:(q,v)=>isJP(v)?(optForms(q.kana).some(f=>normKana(f)===normKana(v))?"ok":"no"):checkRomaji(v,[q.ro]),
+    answerHTML:kanjiAnswer});
+}
+const ROUTES={vlist:vocabList,vflash:vocabFlash,vquiz1:vocabQuiz1,vquiz2:vocabQuiz2,klist:kanjiList,kflash:kanjiFlash,kquiz1:kanjiQuiz1,kquiz2:kanjiQuiz2,gview:gramView,gquiz:gramQuiz};
+home();
+</script>
+</body>
+</html>
