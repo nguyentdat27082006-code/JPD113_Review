@@ -485,46 +485,52 @@ function gramView(n){
 }
 
 function quiz(title,items,{placeholder,checker,answerHTML}){
-  let order=shuffle(items.map((_,i)=>i)),i=0,score=0,answered=false,wrong=[];
+  const MSG={ok:"Chính xác!",warn:"Đúng rồi, chú ý trường âm / cách viết:",no:"Chưa đúng. Đáp án:",info:"Đáp án:"};
+  let order,i,log;
+  const start=o=>{order=o;i=0;log=[];render()};
+  const score=()=>log.filter(x=>x&&(x.kind==="ok"||x.kind==="warn")).length;
+  const scoreText=()=>`Câu ${i+1} / ${order.length} · Đúng: ${score()}`;
   function render(){
     if(i>=order.length)return finish();
-    const q=items[order[i]];answered=false;
-    app.innerHTML=`${backBtn}<div class="panel"><div class="head"><h2>${title}</h2><span class="score">Câu ${i+1} / ${order.length} · Đúng: ${score}</span></div>
+    const q=items[order[i]],done=log[i];
+    app.innerHTML=`${backBtn}<div class="panel"><div class="head"><h2>${title}</h2><span class="score" id="sc">${scoreText()}</span></div>
     ${q.tag?`<div style="text-align:center"><span class="tag">${esc(q.tag)}</span></div>`:""}
     <p class="q">${q.prompt}</p>${q.jp?`<div class="jp">${esc(q.jp)}</div>`:""}
     <input type="text" id="ans" placeholder="${placeholder}" autocomplete="off">
     <div class="err" id="err"></div>
-    <div class="row"><button class="main" id="chk">Kiểm tra</button><button id="shw">Xem đáp án</button><button id="skp">Câu tiếp →</button></div>
+    <div class="row">${i?`<button id="prv">← Câu trước</button>`:""}<button class="main" id="chk">Kiểm tra</button><button id="shw">Xem đáp án</button><button id="skp">Câu tiếp →</button></div>
     <div id="fb"></div></div>`;
     bindBack();
-    const ans=document.getElementById("ans");ans.focus();
+    const ans=document.getElementById("ans");
+    if(done){ans.value=done.v;ans.readOnly=true;fb(done.kind)}else ans.focus();
     ans.oninput=()=>document.getElementById("err").textContent="";
-    ans.onkeydown=e=>{if(e.key==="Enter")answered?next():check()};
+    ans.onkeydown=e=>{if(e.key==="Enter")log[i]?next():check()};
     document.getElementById("chk").onclick=check;
-    document.getElementById("shw").onclick=()=>{if(!answered){answered=true;wrong.push(order[i])}fb("info","Đáp án:")};
-    document.getElementById("skp").onclick=()=>{if(!answered)wrong.push(order[i]);next()};
+    document.getElementById("shw").onclick=()=>{if(!log[i]){log[i]={v:ans.value.trim(),kind:"info"};ans.readOnly=true}fb(log[i].kind)};
+    document.getElementById("skp").onclick=next;
+    if(i)document.getElementById("prv").onclick=()=>{i--;render()};
   }
-  function fb(kind,msg){document.getElementById("fb").innerHTML=`<div class="fb ${kind}">${msg}<br>${answerHTML(items[order[i]])}</div>`}
+  function fb(kind){document.getElementById("fb").innerHTML=`<div class="fb ${kind}">${MSG[kind]}<br>${answerHTML(items[order[i]])}</div>`}
   function check(){
-    if(answered)return next();
-    const v=document.getElementById("ans").value.trim();
+    if(log[i])return next();
+    const ans=document.getElementById("ans"),v=ans.value.trim();
     if(!v){document.getElementById("err").textContent="Nhập câu trả lời trước nhé";return}
-    const r=checker(items[order[i]],v);answered=true;
-    if(r==="ok"){score++;fb("ok","Chính xác!")}
-    else if(r==="warn"){score++;fb("warn","Đúng rồi, chú ý trường âm / cách viết:")}
-    else{wrong.push(order[i]);fb("no","Chưa đúng. Đáp án:")}
+    const r=checker(items[order[i]],v);log[i]={v,kind:r};ans.readOnly=true;
+    document.getElementById("sc").textContent=scoreText();fb(r);
   }
   function next(){i++;render()}
   function finish(){
-    app.innerHTML=`${backBtn}<div class="panel done"><h2 style="color:#d97706">${title}</h2><div class="big">${score} / ${order.length}</div>
+    const wrong=order.filter((_,k)=>!log[k]||log[k].kind==="no"||log[k].kind==="info");
+    app.innerHTML=`${backBtn}<div class="panel done"><h2 style="color:#d97706">${title}</h2><div class="big">${score()} / ${order.length}</div>
     <p>${wrong.length?`Có ${wrong.length} câu sai hoặc bỏ qua.`:"Không sai câu nào!"}</p>
-    <div class="row">${wrong.length?`<button class="main" id="rw">Làm lại câu sai</button>`:""}<button id="ra">Làm lại tất cả</button></div></div>`;
+    <div class="row"><button id="prv">← Xem lại câu trước</button>${wrong.length?`<button class="main" id="rw">Làm lại câu sai</button>`:""}<button id="ra">Làm lại tất cả</button></div></div>`;
     bindBack();
+    document.getElementById("prv").onclick=()=>{i=order.length-1;render()};
     const rw=document.getElementById("rw");
-    if(rw)rw.onclick=()=>{order=shuffle(wrong);wrong=[];i=0;score=0;render()};
-    document.getElementById("ra").onclick=()=>{order=shuffle(items.map((_,k)=>k));wrong=[];i=0;score=0;render()};
+    if(rw)rw.onclick=()=>start(shuffle(wrong));
+    document.getElementById("ra").onclick=()=>start(shuffle(items.map((_,k)=>k)));
   }
-  render();
+  start(shuffle(items.map((_,k)=>k)));
 }
 function vocabQuiz1(n){
   quiz(`Kiểm tra – Bài ${n}`,VOCAB[n].map(w=>({w,prompt:"Nghĩa của từ này là gì?",jp:w.jp})),{
