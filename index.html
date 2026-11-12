@@ -555,21 +555,23 @@ function gramQuiz(n){
     checker:(q,v)=>checkRomaji(v,q.a),
     answerHTML:q=>`<span class="big">${esc(q.k)}</span><br><i>${esc(q.a[0])}</i>`});
 }
+const HV={};for(const n in KANJI)for(const k of KANJI[n])HV[k.k]=k.hv.toLowerCase();
+const hvOf=w=>[...w].every(c=>HV[c])?[...w].map(c=>HV[c]).join(" "):"";
 function kanjiItems(n){
   const items=[],seen=new Set();
   for(const k of KANJI[n]){
     const a=!k.alone.startsWith("✗")&&k.alone.match(/^(\S+) \(([^)]+)\)/);
-    if(a&&!seen.has(k.k)){seen.add(k.k);items.push({w:k.k,kana:a[1],ro:a[2],vn:k.vn})}
-    for(const x of k.c){const[w,kn,ro,m]=x.split("|");if(!seen.has(w)){seen.add(w);items.push({w,kana:kn,ro,vn:m})}}
+    if(a&&!seen.has(k.k)){seen.add(k.k);items.push({w:k.k,kana:a[1],ro:a[2],vn:k.vn,hv:hvOf(k.k)})}
+    for(const x of k.c){const[w,kn,ro,m]=x.split("|");if(!seen.has(w)){seen.add(w);items.push({w,kana:kn,ro,vn:m,hv:hvOf(w)})}}
   }
   return items;
 }
-const kanjiAnswer=q=>`<span class="big">${esc(q.w)}</span> ${esc(q.kana)} · <i>${esc(q.ro)}</i><br>${esc(q.vn)}`;
+const kanjiAnswer=q=>`<span class="big">${esc(q.w)}</span> ${esc(q.kana)} · <i>${esc(q.ro)}</i><br>${esc(q.vn)}${q.hv?` · Hán Việt: ${esc(q.hv.toUpperCase())}`:""}`;
 function kanjiQuiz1(n){
   const mean=m=>m.split(/[,/]/).flatMap(x=>{const p=x.match(/^(.*?)\s*\((.*)\)\s*$/);return p?[p[1],p[2]]:[x]}).map(x=>x.trim()).filter(Boolean).join("/");
   quiz(`Kanji → Nghĩa – Bài ${n}`,kanjiItems(n).map(q=>({...q,prompt:"Nghĩa tiếng Việt của từ này là gì?",jp:q.w})),{
     placeholder:"Nhập nghĩa tiếng Việt (có dấu hoặc không dấu)",
-    checker:(q,v)=>checkVN(v,mean(q.vn)),
+    checker:(q,v)=>checkVN(v,mean(q.vn)+(q.hv?"/"+q.hv:"")),
     answerHTML:kanjiAnswer});
 }
 function kanjiQuiz2(n){
