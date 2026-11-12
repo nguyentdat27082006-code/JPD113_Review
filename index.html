@@ -58,6 +58,10 @@ th{background:#f9fafb}
 .gl b{color:var(--muted);font-weight:600}
 .ro{color:var(--muted);font-style:italic}
 .score{font-size:15px;color:var(--muted)}
+.topics{display:flex;flex-direction:column;gap:8px}
+.topics .btn{margin:0;display:flex;justify-content:space-between;align-items:center;text-align:left;color:var(--pink)}
+.topics .btn.fill{background:var(--pink);color:#fff;border:none}
+.topics .cnt{font-weight:400;font-size:14px;opacity:.85}
 .done{text-align:center}
 .done .big{font-size:40px;font-weight:700;color:#d97706}
 </style>
@@ -66,7 +70,8 @@ th{background:#f9fafb}
 <div class="wrap" id="app"></div>
 <script>
 const V={
-1:`にほん|nihon|Nhật Bản|日本
+1:`#Quốc gia
+にほん|nihon|Nhật Bản|日本
 かんこく|kankoku|Hàn Quốc
 ちゅうごく|chuugoku|Trung Quốc
 タイ|tai|Thái Lan
@@ -78,20 +83,24 @@ const V={
 インド|indo|Ấn Độ
 ブラジル|burajiru|Brazil
 イギリス|igirisu|Anh/nước Anh
-わたし|watashi|tôi|私
-～じん|jin|người nước ~/người|人
 （お）くに|(o)kuni|đất nước/nước
+～じん|jin|người nước ~/người|人
+#Con người & nghề nghiệp
+わたし|watashi|tôi|私
 しごと|shigoto|công việc
 きょうし|kyoushi|giáo viên
 かいしゃいん|kaishain|nhân viên văn phòng/nhân viên công ty
 がくせい|gakusei|học sinh/sinh viên|学生
 せんせい|sensei|thầy cô/thầy/cô/giáo viên|先生
+#Trường học
 だいがく|daigaku|trường đại học/đại học|大学
 こうこう|koukou|trường cấp ba/cấp ba/cấp 3|高校
 にほんごがっこう|nihongo gakkou|trường tiếng Nhật|日本語学校
+#Tuổi & sinh nhật
 たんじょうび|tanjoubi|sinh nhật|誕生日
 ～さい|sai|~ tuổi/tuổi|才
 なんさい|nansai|mấy tuổi/bao nhiêu tuổi|何才
+#Sở thích
 しゅみ|shumi|sở thích
 スポーツ|supootsu|thể thao
 テニス|tenisu|tennis/quần vợt
@@ -102,43 +111,48 @@ const V={
 おんがく|ongaku|âm nhạc/nhạc
 りょこう|ryokou|du lịch
 りょうり|ryouri|nấu ăn/món ăn`,
-2:`インフォメーション|infomeeshon|quầy thông tin
+2:`#Địa điểm trong tòa nhà
+インフォメーション|infomeeshon|quầy thông tin
 ATM|eetiiemu|cây ATM/máy rút tiền/atm||エーティーエム
 エスカレーター|esukareetaa|thang cuốn
 エレベーター|erebeetaa|thang máy
 トイレ|toire|nhà vệ sinh/toilet
 レジ|reji|quầy thu ngân/thu ngân
+きつえんじょ|kitsuenjo|nơi hút thuốc/khu hút thuốc
+ちか|chika|tầng hầm/dưới mặt đất|地下
+#Cửa hàng & nhân viên
 スーパー|suupaa|siêu thị
 100えんショップ|hyakuen shoppu|cửa hàng đồng giá 100 yên/cửa hàng 100 yên||ひゃくえんショップ
 レストラン|resutoran|nhà hàng
 きっさてん|kissaten|quán cà phê
-きつえんじょ|kitsuenjo|nơi hút thuốc/khu hút thuốc
-ちか|chika|tầng hầm/dưới mặt đất|地下
 てんいん|ten'in|nhân viên cửa hàng
 ～や|ya|cửa hàng ~/tiệm ~|屋
 くつや|kutsuya|tiệm giày/cửa hàng giày
 ケーキや|keekiya|tiệm bánh ngọt
 パンや|pan'ya|tiệm bánh mì
+#Đồ dùng
 カメラ|kamera|máy ảnh
 けいたいでんわ|keitai denwa|điện thoại di động
 じしょ|jisho|từ điển
 でんしじしょ|denshi jisho|từ điển điện tử
 パソコン|pasokon|máy tính
-くつ|kutsu|giày dép/giày
 けしゴム|keshigomu|cục tẩy/tẩy
 ペン|pen|bút mực/bút
 トイレットペーパー|toiretto peepaa|giấy vệ sinh
 ほん|hon|sách|本
+#Quần áo & phụ kiện
 かばん|kaban|túi xách/cặp
+くつ|kutsu|giày dép/giày
 ズボン|zubon|quần
 Tシャツ|tii shatsu|áo thun/áo phông||ティーシャツ
 とけい|tokei|đồng hồ
 さいふ|saifu|ví
+#Thực phẩm
 あぶら|abura|dầu/dầu ăn
-ケーキ|keeki|bánh ngọt/bánh kem
 こめ|kome|gạo
 たまご|tamago|trứng
 パン|pan|bánh mì
+ケーキ|keeki|bánh ngọt/bánh kem
 みず|mizu|nước
 やさい|yasai|rau củ/rau
 さかな|sakana|cá
@@ -146,9 +160,11 @@ Tシャツ|tii shatsu|áo thun/áo phông||ティーシャツ
 ぶたにく|butaniku|thịt heo/thịt lợn
 とりにく|toriniku|thịt gà
 ぎゅうにく|gyuuniku|thịt bò
+#Trái cây
 イチゴ|ichigo|dâu tây||いちご
 リンゴ|ringo|táo/quả táo||りんご
 バナナ|banana|chuối
+#Món ăn
 りょうり|ryouri|món ăn/nấu ăn
 カレー|karee|cà ri
 スープ|suupu|súp/canh
@@ -157,32 +173,26 @@ Tシャツ|tii shatsu|áo thun/áo phông||ティーシャツ
 ハンバーグ|hanbaagu|thịt băm viên/hamburg
 ごはん|gohan|cơm
 ライス|raisu|cơm
+#Đồ uống
 （お）ちゃ|(o)cha|trà
 こうちゃ|koucha|hồng trà/trà đen
 コーヒー|koohii|cà phê
 ジュース|juusu|nước ép/nước trái cây
 ワイン|wain|rượu vang/rượu
 ビール|biiru|bia
+#Quốc gia & ngôn ngữ
 インド|indo|Ấn Độ
 ドイツ|doitsu|Đức
 フランス|furansu|Pháp
 えいご|eigo|tiếng Anh|英語`,
-3:`あさ|asa|buổi sáng|朝
+3:`#Buổi trong ngày
+あさ|asa|buổi sáng|朝
 ひる|hiru|buổi trưa|昼
 よる|yoru|ban đêm/buổi tối|夜
 ばん|ban|buổi tối|晩
 ごぜん|gozen|giờ sáng (AM)/buổi sáng trước 12h|午前
 ごご|gogo|giờ chiều (PM)/buổi chiều|午後
-ぎんこう|ginkou|ngân hàng|銀行
-たいいくかん|taiikukan|nhà thi đấu thể thao/phòng thể dục
-としょかん|toshokan|thư viện|図書館
-びょういん|byouin|bệnh viện
-ゆうびんきょく|yuubinkyoku|bưu điện
-きょうしつ|kyoushitsu|phòng học/lớp học
-じゅぎょう|jugyou|giờ học/tiết học/buổi học
-テスト|tesuto|bài kiểm tra/kiểm tra
-やすみ|yasumi|ngày nghỉ/nghỉ|休み
-じかん|jikan|thời gian|時間
+#Thứ trong tuần
 ～ようび|youbi|thứ ~ (ngày trong tuần)/thứ|曜日
 にちようび|nichiyoubi|chủ nhật|日曜日
 げつようび|getsuyoubi|thứ hai|月曜日
@@ -191,8 +201,38 @@ Tシャツ|tii shatsu|áo thun/áo phông||ティーシャツ
 もくようび|mokuyoubi|thứ năm|木曜日
 きんようび|kinyoubi|thứ sáu|金曜日
 どようび|doyoubi|thứ bảy|土曜日
+#Mùa & thời gian
+はる|haru|mùa xuân|春
+なつ|natsu|mùa hè/mùa hạ|夏
+あき|aki|mùa thu|秋
+ふゆ|fuyu|mùa đông|冬
+なつやすみ|natsuyasumi|kỳ nghỉ hè/nghỉ hè|夏休み
+ゴールデンウイーク|goorudenuiiku|Tuần lễ vàng (Golden Week)/tuần lễ vàng
+いちねん|ichinen|một năm/1 năm|一年
+まい～|mai|mỗi ~/mỗi|毎
+まいにち|mainichi|mỗi ngày/hằng ngày|毎日
+じかん|jikan|thời gian|時間
+やすみ|yasumi|ngày nghỉ/nghỉ|休み
+#Địa điểm
+ぎんこう|ginkou|ngân hàng|銀行
+たいいくかん|taiikukan|nhà thi đấu thể thao/phòng thể dục
+としょかん|toshokan|thư viện|図書館
+びょういん|byouin|bệnh viện
+ゆうびんきょく|yuubinkyoku|bưu điện
+きょうしつ|kyoushitsu|phòng học/lớp học
+うち|uchi|nhà
+コンビニ|konbini|cửa hàng tiện lợi
+かいしゃ|kaisha|công ty|会社
+がっこう|gakkou|trường học/trường|学校
+こうえん|kouen|công viên
+うみ|umi|biển
+#Trường học & công việc
+じゅぎょう|jugyou|giờ học/tiết học/buổi học
+テスト|tesuto|bài kiểm tra/kiểm tra
 スケジュール|sukejuuru|lịch trình/thời gian biểu
 アルバイト|arubaito|việc làm thêm/làm thêm
+りゅうがくせい|ryuugakusei|du học sinh
+#Hoạt động & sự kiện
 スキー|sukii|trượt tuyết
 パーティー|paatii|bữa tiệc/tiệc
 バーベキュー|baabekyuu|tiệc nướng/BBQ
@@ -200,39 +240,26 @@ Tシャツ|tii shatsu|áo thun/áo phông||ティーシャツ
 おはなみ|ohanami|ngắm hoa anh đào/ngắm hoa
 ホームステイ|hoomusutei|homestay/ở nhà dân
 おまつり|omatsuri|lễ hội
-うみ|umi|biển
-こうえん|kouen|công viên
 さくら|sakura|hoa anh đào
-おさけ|osake|rượu/rượu sake
-おすし|osushi|sushi
-バス|basu|xe buýt
-おべんとう|obentou|cơm hộp
-りゅうがくせい|ryuugakusei|du học sinh
-いちねん|ichinen|một năm/1 năm|一年
-はる|haru|mùa xuân|春
-なつ|natsu|mùa hè/mùa hạ|夏
-あき|aki|mùa thu|秋
-ふゆ|fuyu|mùa đông|冬
-なつやすみ|natsuyasumi|kỳ nghỉ hè/nghỉ hè|夏休み
-ゴールデンウイーク|goorudenuiiku|Tuần lễ vàng (Golden Week)/tuần lễ vàng
-まい～|mai|mỗi ~/mỗi|毎
-まいにち|mainichi|mỗi ngày/hằng ngày|毎日
+#Ăn uống
 あさごはん|asagohan|bữa sáng/cơm sáng|朝ごはん
 ひるごはん|hirugohan|bữa trưa/cơm trưa|昼ごはん
 ばんごはん|bangohan|bữa tối/cơm tối|晩ごはん
-うち|uchi|nhà
-コンビニ|konbini|cửa hàng tiện lợi
-かいしゃ|kaisha|công ty|会社
-がっこう|gakkou|trường học/trường|学校
+おさけ|osake|rượu/rượu sake
+おすし|osushi|sushi
+おべんとう|obentou|cơm hộp
 ぎゅうにゅう|gyuunyuu|sữa bò/sữa|牛乳
 くだもの|kudamono|trái cây/hoa quả
 サラダ|sarada|salad/sa lát
 チーズ|chiizu|phô mai
+#Phương tiện & giải trí
+バス|basu|xe buýt
 インターネット|intaanetto|internet/mạng
 しんぶん|shinbun|báo/tờ báo
 テレビ|terebi|tivi/truyền hình
 CD|shiidii|đĩa CD/cd||シーディー
 DVD|diibuidii|đĩa DVD/dvd||ディーブイディー
+#Động từ
 いきます|ikimasu|đi|行きます
 きます|kimasu|đến|来ます
 かえります|kaerimasu|về/trở về|帰ります
@@ -248,7 +275,7 @@ DVD|diibuidii|đĩa DVD/dvd||ディーブイディー
 べんきょうします|benkyoushimasu|học/học tập|勉強します
 はたらきます|hatarakimasu|làm việc|働きます`};
 const VOCAB={};
-for(const n in V)VOCAB[n]=V[n].split("\n").map(l=>{const[jp,ro,vn,kanji,alt]=l.split("|");return{jp,ro,vn,kanji:kanji||"",alt:alt||""}});
+for(const n in V){let topic="";VOCAB[n]=V[n].split("\n").flatMap(l=>{if(l[0]==="#"){topic=l.slice(1);return[]}const[jp,ro,vn,kanji,alt]=l.split("|");return[{jp,ro,vn,kanji:kanji||"",alt:alt||"",topic}]})}
 
 const KANJI={
 1:[
@@ -532,22 +559,29 @@ function quiz(title,items,{placeholder,checker,answerHTML}){
   }
   start(shuffle(items.map((_,k)=>k)));
 }
-function vocabQuiz1(n){
-  quiz(`Kiểm tra – Bài ${n}`,VOCAB[n].map(w=>({w,prompt:"Nghĩa của từ này là gì?",jp:w.jp})),{
+function pickTopic(n,title,run){
+  const topics=[...new Set(VOCAB[n].map(w=>w.topic))];
+  app.innerHTML=`${backBtn}<div class="panel"><div class="head"><h2>${title} – Bài ${n}</h2></div><p class="q">Chọn chủ đề để kiểm tra</p><div class="topics">${topics.map((t,k)=>`<button class="btn" data-t="${k}">${esc(t)} <span class="cnt">${VOCAB[n].filter(w=>w.topic===t).length} từ</span></button>`).join("")}<button class="btn fill" data-t="all">Tất cả <span class="cnt">${VOCAB[n].length} từ</span></button></div></div>`;
+  bindBack();
+  app.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{const all=b.dataset.t==="all",t=topics[b.dataset.t];run(all?VOCAB[n]:VOCAB[n].filter(w=>w.topic===t),all?"Tất cả":t);window.scrollTo(0,0)});
+}
+function vocabQuiz1(n){pickTopic(n,"Kiểm tra: Kana → Nghĩa",(words,label)=>
+  quiz(`Kiểm tra – Bài ${n} · ${esc(label)}`,words.map(w=>({w,prompt:"Nghĩa của từ này là gì?",jp:w.jp})),{
     placeholder:"Nhập nghĩa tiếng Việt (có dấu hoặc không dấu)",
     checker:(q,v)=>checkVN(v,q.w.vn),
-    answerHTML:q=>`<span class="big">${esc(q.w.vn.replace(/\//g,", "))}</span><br>${esc(q.w.jp)} · <i>${esc(q.w.ro)}</i>`});
+    answerHTML:q=>`<span class="big">${esc(q.w.vn.replace(/\//g,", "))}</span><br>${esc(q.w.jp)} · <i>${esc(q.w.ro)}</i>`}));
 }
 function vocabQuiz2(n){
   const list=VOCAB[n];
-  quiz(`Kiểm tra – Bài ${n}`,list.map(w=>({w,prompt:`Viết phiên âm của từ: <b style="color:#b45309">"${esc(w.vn.replace(/\//g,", "))}"</b><br><span class="tag">${kanaType(w)}</span>`})),{
+  pickTopic(n,"Kiểm tra: Nghĩa → Kana",(words,label)=>
+  quiz(`Kiểm tra – Bài ${n} · ${esc(label)}`,words.map(w=>({w,prompt:`Viết phiên âm của từ: <b style="color:#b45309">"${esc(w.vn.replace(/\//g,", "))}"</b><br><span class="tag">${kanaType(w)}</span>`})),{
     placeholder:"Gõ kana (いちご) hoặc romaji (ichigo)",
     checker:(q,v)=>{
       const qa=q.w.vn.split("/").map(normVN);const cands=list.filter(x=>x===q.w||x.vn.split("/").map(normVN).some(a=>qa.includes(a)));
       if(isJP(v)){const iv=normKana(v);return cands.some(x=>[x.jp,x.alt,x.kanji].filter(Boolean).flatMap(optForms).some(f=>normKana(f)===iv))?"ok":"no"}
       return checkRomaji(v,cands.flatMap(x=>optForms(x.ro)));
     },
-    answerHTML:q=>`<span class="big">${esc(q.w.jp)}</span>${q.w.kanji?" ("+esc(q.w.kanji)+")":""} · <i>${esc(q.w.ro)}</i>`});
+    answerHTML:q=>`<span class="big">${esc(q.w.jp)}</span>${q.w.kanji?" ("+esc(q.w.kanji)+")":""} · <i>${esc(q.w.ro)}</i>`}));
 }
 function gramQuiz(n){
   quiz(`Ngữ pháp – Bài ${n}`,GQUIZ[n].map(q=>({...q,tag:q.t,prompt:esc(q.p),jp:q.j||""})),{
