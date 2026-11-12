@@ -71,7 +71,7 @@ th{background:#f9fafb}
 <script>
 const V={
 1:`#Quốc gia
-にほん|nihon|Nhật Bản|日本
+にほん|nihon|Nhật Bản/Nhật|日本
 かんこく|kankoku|Hàn Quốc
 ちゅうごく|chuugoku|Trung Quốc
 タイ|tai|Thái Lan
@@ -132,7 +132,7 @@ ATM|eetiiemu|cây ATM/máy rút tiền/atm||エーティーエム
 パンや|pan'ya|tiệm bánh mì
 #Đồ dùng
 カメラ|kamera|máy ảnh
-けいたいでんわ|keitai denwa|điện thoại di động
+けいたいでんわ|keitai denwa|điện thoại di động/điện thoại
 じしょ|jisho|từ điển
 でんしじしょ|denshi jisho|từ điển điện tử
 パソコン|pasokon|máy tính
@@ -190,8 +190,8 @@ Tシャツ|tii shatsu|áo thun/áo phông||ティーシャツ
 ひる|hiru|buổi trưa|昼
 よる|yoru|ban đêm/buổi tối|夜
 ばん|ban|buổi tối|晩
-ごぜん|gozen|giờ sáng (AM)/buổi sáng trước 12h|午前
-ごご|gogo|giờ chiều (PM)/buổi chiều|午後
+ごぜん|gozen|giờ sáng (AM)/buổi sáng/sáng|午前
+ごご|gogo|giờ chiều (PM)/buổi chiều/chiều|午後
 #Thứ trong tuần
 ～ようび|youbi|thứ ~ (ngày trong tuần)/thứ|曜日
 にちようび|nichiyoubi|chủ nhật|日曜日
@@ -433,7 +433,29 @@ function normKana(s){return s.replace(/[\u30a1-\u30f6]/g,c=>String.fromCharCode(
 function normVN(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/[^a-z0-9]/g,"")}
 function optForms(s){return s.includes("(お)")||s.includes("（お）")||s.includes("(o)")?[s.replace(/[(（](お|o)[)）]/,"$1"),s.replace(/[(（](お|o)[)）]/,"")]:[s]}
 function checkRomaji(input,answers){const s=strictRo(input),l=looseRo(input);if(answers.some(a=>strictRo(a)===s))return"ok";if(answers.some(a=>looseRo(a)===l))return"warn";return"no"}
-function checkVN(input,vn){const x=normVN(input);if(!x)return"no";for(const alt of vn.split("/")){const a=normVN(alt.replace("~",""));if(!a)continue;if(x===a)return"ok";if(x.length>=3&&(a.includes(x)&&x.length>=a.length*0.5||x.includes(a)))return"ok"}return"no"}
+const SYN=[["lợn","heo"],["ti vi","tivi"],["tv","tivi"],["cafe","cà phê"],["cà fê","cà phê"],["coffee","cà phê"],["máy vi tính","máy tính"],["laptop","máy tính"],["xe bus","xe buýt"],["wc","nhà vệ sinh"],["phô mát","phô mai"],["xa lát","salad"],["sa lát","salad"],["hoa quả","trái cây"],["thầy giáo","giáo viên"],["cô giáo","giáo viên"],["tiệm","cửa hàng"],["quán","cửa hàng"],["đá bóng","bóng đá"],["đá banh","bóng đá"],["mùa hạ","mùa hè"],["kì","kỳ"],["mĩ","mỹ"],["lí","lý"],["cn","chủ nhật"],["thứ 2","thứ hai"],["thứ 3","thứ ba"],["thứ 4","thứ tư"],["thứ 5","thứ năm"],["thứ 6","thứ sáu"],["thứ 7","thứ bảy"],["t2","thứ hai"],["t3","thứ ba"],["t4","thứ tư"],["t5","thứ năm"],["t6","thứ sáu"],["t7","thứ bảy"]];
+const STOP=["cái","chiếc","quả","cục","tờ","con"],FILL=["đi","là","sự","ạ","cuốn"];
+function vnClean(s,strip){s=s.normalize("NFC").toLowerCase();if(strip)s=s.normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d");return" "+s.replace(/[^\p{L}\p{N}]+/gu," ").trim()+" "}
+function vnTokens(s,strip){
+  s=vnClean(s,strip);
+  for(const[a,b]of SYN){const A=vnClean(a,strip),B=vnClean(b,strip);while(s.includes(A))s=s.replace(A,B)}
+  const t=s.trim().split(" ").filter(Boolean),stop=STOP.map(w=>vnClean(w,strip).trim()),k=t.filter(w=>!stop.includes(w));
+  return new Set(k.length?k:t);
+}
+function checkVN(input,vn){
+  const strip=input.normalize("NFD").replace(/[̀-ͯ]/g,"")===input.normalize("NFD")&&!/đ/i.test(input);
+  const I=vnTokens(input,strip);if(!I.size)return"no";
+  const alts=vn.split(/[\/,]/).flatMap(x=>{const out=[x,x.replace(/\([^)]*\)/g," ")];for(const m of x.matchAll(/\(([^)]*)\)/g))out.push(m[1]);return out});
+  for(const alt of alts){
+    const A=vnTokens(alt,strip);if(!A.size)continue;
+    const inA=[...I].every(w=>A.has(w)),aIn=[...A].every(w=>I.has(w));
+    if(inA&&aIn)return"ok";
+    if(inA&&I.size/A.size>=0.8)return"ok";
+    const fill=FILL.map(w=>vnClean(w,strip).trim());
+    if(aIn&&[...I].every(w=>A.has(w)||fill.includes(w)))return"ok";
+  }
+  return"no";
+}
 const kanaType=w=>/[\u30a0-\u30ff]/.test(w.jp)?"katakana":"hiragana";
 
 function home(){
