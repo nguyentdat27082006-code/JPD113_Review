@@ -54,8 +54,10 @@ th{background:#f9fafb}
 .gcard{border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:14px}
 .gcard h4{margin:0 0 4px;font-size:18px;color:var(--indigo)}
 .gcard .m{color:var(--muted);margin-bottom:8px}
-.gl{display:grid;grid-template-columns:110px 1fr;gap:4px 12px;font-size:15px}
-.gl b{color:var(--muted);font-weight:600}
+.grow{display:grid;grid-template-columns:120px minmax(0,1fr);gap:4px 12px;border-top:1px solid var(--border);padding:10px 0;font-size:15px}
+.glbl{color:var(--muted);font-weight:600}
+.gst{display:inline-block;font-weight:600;color:var(--indigo);background:var(--indigo-bg);padding:3px 10px;border-radius:6px;margin-bottom:6px}
+@media (max-width:520px){.grow{grid-template-columns:1fr}}
 .ro{color:var(--muted);font-style:italic}
 .score{font-size:15px;color:var(--muted)}
 .topics{display:flex;flex-direction:column;gap:8px}
@@ -318,8 +320,8 @@ const KANJI={
 
 const GRAMMAR={
 1:[
-{s:"N1 は N2 です",m:"N1 là N2",f:["私は学生です。","watashi wa gakusei desu","Tôi là sinh viên."],g:["学生です。","gakusei desu","Là sinh viên."]},
-{s:"N1 は N2 ではありません / じゃありません",m:"N1 không phải là N2",f:["私はアメリカ人ではありません。","watashi wa amerikajin dewa arimasen","Tôi không phải là người Mỹ."],g:["アメリカ人じゃありません。","amerikajin ja arimasen","Không phải người Mỹ."]},
+{s:"N1 は N2 です",m:"N1 là N2",q:["お名前は？","onamae wa?","Tên bạn là gì?"],f:["私はリンです。","watashi wa Rin desu","Tôi là Linh."],g:["リンです。","Rin desu","Là Linh."]},
+{s:"N1 は N2 ではありません / じゃありません",m:"N1 không phải là N2",q:["マリーさんはアメリカ人ですか。","marii-san wa amerikajin desu ka","Mari là người Mỹ phải không?"],f:["いいえ、マリーさんはアメリカ人ではありません。イギリス人です。","iie, marii-san wa amerikajin dewa arimasen. igirisujin desu","Không, Mari không phải người Mỹ. Là người Anh."],g:["いいえ、アメリカ人じゃありません。","iie, amerikajin ja arimasen","Không, không phải người Mỹ."]},
 {s:"N1 は N2 ですか",m:"N1 có phải là N2 không?",q:["ワンさんは学生ですか。","wan-san wa gakusei desu ka","Bạn Wan là sinh viên phải không?"],f:["はい、ワンさんは学生です。 / いいえ、ワンさんは学生ではありません。","hai, wan-san wa gakusei desu / iie, wan-san wa gakusei dewa arimasen","Vâng, Wan là sinh viên / Không, Wan không phải sinh viên."],g:["はい、学生です。 / いいえ、学生ではありません。","hai, gakusei desu / iie, gakusei dewa arimasen","Vâng, là sinh viên / Không, không phải."]},
 {s:"（お）くに は どちら ですか",m:"Đất nước của bạn ở đâu? (Bạn là người nước nào?)",q:["おくにはどちらですか。","okuni wa dochira desu ka","Bạn đến từ nước nào?"],f:["私のくにはベトナムです。","watashi no kuni wa betonamu desu","Đất nước của tôi là Việt Nam."],g:["ベトナムです。","betonamu desu","Việt Nam."]},
 {s:"たんじょうび は いつ ですか",m:"Sinh nhật là khi nào?",q:["誕生日はいつですか。","tanjoubi wa itsu desu ka","Sinh nhật của bạn là khi nào?"],f:["私の誕生日は四月八日です。","watashi no tanjoubi wa shigatsu youka desu","Sinh nhật tôi là ngày 8 tháng 4."],g:["四月八日です。","shigatsu youka desu","Ngày 8 tháng 4."]},
@@ -327,7 +329,7 @@ const GRAMMAR={
 {s:"何才 ですか",m:"Bao nhiêu tuổi?",q:["何才ですか。","nansai desu ka","Bạn bao nhiêu tuổi?"],f:["私は二十才です。","watashi wa hatachi desu","Tôi 20 tuổi."],g:["二十才です。","hatachi desu","20 tuổi."]},
 {s:"Tổ chức の Nghề nghiệp",m:"Nghề nghiệp của tổ chức nào (の = của)",q:["おしごとは？","oshigoto wa?","Công việc của bạn là gì?"],f:["私はFPT大学の学生です。","watashi wa FPT daigaku no gakusei desu","Tôi là sinh viên trường đại học FPT."],g:["FPT大学の学生です。","FPT daigaku no gakusei desu","Sinh viên đại học FPT."]},
 {s:"N1 と N2",m:"N1 và N2",q:["しゅみは何ですか。","shumi wa nan desu ka","Sở thích là gì?"],f:["私のしゅみはりょこうとえいがです。","watashi no shumi wa ryokou to eiga desu","Sở thích của tôi là du lịch và phim ảnh."],g:["りょこうとえいがです。","ryokou to eiga desu","Du lịch và phim ảnh."]},
-{s:"A1 は B です。A2 も B です。",m:"A2 cũng là B",q:["ワンさんのしゅみはりょうりです。","wan-san no shumi wa ryouri desu","Sở thích của Wan là nấu ăn."],f:["私のしゅみもりょうりです。","watashi no shumi mo ryouri desu","Sở thích của tôi cũng là nấu ăn."],g:["私もりょうりです。","watashi mo ryouri desu","Tôi cũng là nấu ăn."]}],
+{s:"A1 は B です。A2 も B です。",m:"A2 cũng là B",q:["ワンさんのしゅみはりょうりです。リンさんは？","wan-san no shumi wa ryouri desu. Rin-san wa?","Sở thích của Wan là nấu ăn. Còn Linh?"],f:["私のしゅみもりょうりです。","watashi no shumi mo ryouri desu","Sở thích của tôi cũng là nấu ăn."],g:["私もりょうりです。","watashi mo ryouri desu","Tôi cũng là nấu ăn."]}],
 2:[
 {s:"これ / それ / あれ は 何 ですか",m:"Cái này / đó / kia là gì?",q:["これは何ですか。","kore wa nan desu ka","Cái này là gì?"],f:["それはかばんです。","sore wa kaban desu","Cái đó là túi xách."],g:["かばんです。","kaban desu","Túi xách."]},
 {s:"N は どこ ですか → ここ / そこ / あそこ",m:"N ở đâu?",q:["トイレはどこですか。","toire wa doko desu ka","Toilet ở đâu?"],f:["トイレはあそこです。","toire wa asoko desu","Toilet ở đằng kia."],g:["あそこです。","asoko desu","Ở đằng kia."]},
@@ -351,6 +353,7 @@ const GRAMMAR={
 {s:"N1 や N2 など",m:"Chẳng hạn như N1, N2…",q:["毎朝、何を食べますか。","maiasa, nani o tabemasu ka","Mỗi sáng bạn ăn gì?"],f:["毎朝、パンやサラダなどを食べます。","maiasa, pan ya sarada nado o tabemasu","Mỗi sáng tôi ăn bánh mì, salad…"],g:["パンやサラダなどです。","pan ya sarada nado desu","Bánh mì, salad…"]},
 {s:"何も / どこ（へ）も + V-ません",m:"Không … gì cả / không … đâu cả",q:["日曜日、どこへ行きますか。","nichiyoubi, doko e ikimasu ka","Chủ nhật bạn đi đâu?"],f:["日曜日、どこ（へ）も行きません。うちで勉強します。","nichiyoubi, doko (e) mo ikimasen. uchi de benkyou shimasu","Chủ nhật tôi không đi đâu cả. Tôi học ở nhà."],g:["どこも行きません。","doko mo ikimasen","Không đi đâu cả."]}]};
 
+const GSTRUCT={"1": [["お名前 は？", "私 は [tên] です", "[tên] です"], ["N1 は N2 ですか", "いいえ、N1 は N2 ではありません。N3 です", "いいえ、N2 じゃありません"], ["N1 は N2 ですか", "はい、N1 は N2 です ／ いいえ、N1 は N2 ではありません", "はい、N2 です ／ いいえ、N2 ではありません"], ["（お）くに は どちら ですか", "私 の くに は [nước] です", "[nước] です"], ["たんじょうび は いつ ですか", "私 の たんじょうび は [tháng]月[ngày]日 です", "[tháng]月[ngày]日 です"], ["しゅみ は 何 ですか", "私 の しゅみ は N です", "N です"], ["何才 ですか", "私 は [số]才 です", "[số]才 です"], ["おしごと は？", "私 は [tổ chức] の [nghề] です", "[tổ chức] の [nghề] です"], ["しゅみ は 何 ですか", "私 の しゅみ は N1 と N2 です", "N1 と N2 です"], ["A1 の しゅみ は B です。A2 は？", "A2 の しゅみ も B です", "私 も B です"]], "2": [["これ ／ それ ／ あれ は 何 ですか", "それ ／ これ ／ あれ は N です", "N です"], ["N は どこ ですか", "N は ここ ／ そこ ／ あそこ です", "ここ ／ そこ ／ あそこ です"], ["N は どちら ですか", "N は こちら ／ そちら ／ あちら です", "こちら ／ そちら ／ あちら です"], ["N は 何階 ですか", "N は [số]階 です", "[số]階 です"], ["この ／ その ／ あの N は いくら ですか", "その ／ この ／ あの N は [giá]円 です", "[giá]円 です"], ["これ は どこ の N ですか", "それ は [nước] の N です", "[nước] の です"], ["これ は 何 の N ですか", "それ は [loại] の N です", "[loại] の N です"], ["これ は 誰 の N ですか", "それ は [người] の N です", "[người] の です"], ["「từ」は [ngôn ngữ] で 何 ですか", "「từ」は [ngôn ngữ] で「nghĩa」です", "「nghĩa」です"], ["ご注文、どうぞ ／ ご注文 は？", "N1 を [số]つ と N2 を [số]つ ください", "N を [số]つ ください"]], "3": [["（N を）V-ますか", "はい、（N を）V-ます ／ いいえ、（N を）V-ません", "はい、V-ます ／ いいえ、V-ません"], ["どこ へ 行きますか", "[thời gian]、[nơi] へ 行きます ／ 来ます ／ 帰ります", "[nơi] へ 行きます"], ["何 を V-ますか", "N を V-ます", "N です"], ["何時 に V-ますか", "[thời điểm] に V-ます", "[thời điểm] です"], ["あした ／ きょう、何 を しますか", "あした、N を します（không có に）", "N です"], ["どこ で V-ますか", "[nơi] で N を V-ます", "[nơi] です"], ["何 で 行きますか", "[phương tiện] で [nơi] へ 行きます", "[phương tiện] で 行きます"], ["何時 から 何時 まで V-ますか", "[A] から [B] まで V-ます", "[A] から [B] まで です"], ["何 を V-ますか", "N1 や N2 など を V-ます", "N1 や N2 など です"], ["何 を V-ますか ／ どこ へ 行きますか", "何 も V-ません ／ どこ（へ）も 行きません", "何 も V-ません ／ どこ も 行きません"]]};
 const GQUIZ={
 1:[
 {t:"Hỏi",p:"Hỏi: Bạn đến từ nước nào?",a:["okuni wa dochira desu ka","kuni wa dochira desu ka"],k:"おくにはどちらですか。"},
@@ -525,9 +528,9 @@ function kanjiList(n){
 }
 
 function gramView(n){
-  const line=(lbl,x)=>x?`<b>${lbl}</b><div>${esc(x[0])}<br><span class="ro">${esc(x[1])}</span><br>${esc(x[2])}</div>`:"";
+  const row=(lbl,st,x)=>x?`<div class="grow"><div class="glbl">${lbl}</div><div class="gbody"><div class="gst">${esc(st)}</div><div class="gex">${esc(x[0])}<br><span class="ro">${esc(x[1])}</span><br>${esc(x[2])}</div></div></div>`:"";
   app.innerHTML=`${backBtn}<div class="panel wide"><div class="head"><h2>Ngữ pháp – Bài ${n}</h2></div>
-  ${GRAMMAR[n].map((g,i)=>`<div class="gcard"><h4>${i+1}. ${esc(g.s)}</h4><div class="m">${esc(g.m)}</div><div class="gl">${line("Câu hỏi",g.q)}${line("Đầy đủ",g.f)}${line("Gọn",g.g)}</div></div>`).join("")}
+  ${GRAMMAR[n].map((g,i)=>`<div class="gcard"><h4>${i+1}. ${esc(g.s)}</h4><div class="m">${esc(g.m)}</div>${row("Câu hỏi",GSTRUCT[n][i][0],g.q)}${row("Trả lời đầy đủ",GSTRUCT[n][i][1],g.f)}${row("Trả lời gọn",GSTRUCT[n][i][2],g.g)}</div>`).join("")}
   ${n==2?`<div class="gcard"><h4>Ghi nhớ</h4><div>Hỏi bằng これ → trả lời bằng それ · Hỏi それ → trả lời これ · あれ → あれ<br>この / その / あの luôn đi kèm danh từ (この時計)</div></div>`:""}
   </div>`;
   bindBack();
