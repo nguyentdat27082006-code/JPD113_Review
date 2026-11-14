@@ -66,6 +66,7 @@ th{background:#f9fafb}
 .topics{display:flex;flex-direction:column;gap:8px}
 .topics .btn{margin:0;display:flex;justify-content:space-between;align-items:center;text-align:left;color:var(--pink)}
 .topics .btn.fill{background:var(--pink);color:#fff;border:none}
+.trow td{background:var(--pink);color:#fff;font-weight:700;font-size:15px}
 .topics .cnt{font-weight:400;font-size:14px;opacity:.85}
 .done{text-align:center}
 .done .big{font-size:40px;font-weight:700;color:#d97706}
@@ -453,10 +454,11 @@ function home(){
 const backBtn=`<button class="back" id="back">← Quay lại</button>`;
 function bindBack(){document.getElementById("back").onclick=()=>{home();window.scrollTo(0,0)}}
 
-function vocabList(n){
-  app.innerHTML=`${backBtn}<div class="panel wide"><div class="head"><h2>Từ vựng – Bài ${n}</h2><span class="score">${VOCAB[n].length} từ</span></div><div class="tbl"><table><tr><th>#</th><th>Từ</th><th>Kanji</th><th>Romaji</th><th>Nghĩa</th></tr>${VOCAB[n].map((w,i)=>`<tr><td>${i+1}</td><td style="font-size:18px">${esc(w.jp)}</td><td>${esc(w.kanji)}</td><td class="ro">${esc(w.ro)}</td><td>${esc(w.vn.replace(/\//g,", "))}</td></tr>`).join("")}</table></div></div>`;
-  bindBack();
-}
+function vocabList(n){pickTopic(n,"Danh sách từ vựng",(words,label)=>{
+  let prev="";const rows=words.map((w,i)=>{const h=label==="Tất cả"&&w.topic!==prev?`<tr class="trow"><td colspan="5">${esc(w.topic)}</td></tr>`:"";prev=w.topic;return h+`<tr><td>${i+1}</td><td style="font-size:18px">${esc(w.jp)}</td><td>${esc(w.kanji)}</td><td class="ro">${esc(w.ro)}</td><td>${esc(w.vn.replace(/\//g,", "))}</td></tr>`}).join("");
+  app.innerHTML=`<button class="back" id="back">← Chọn chủ đề khác</button><div class="panel wide"><div class="head"><h2>Từ vựng – Bài ${n} · ${esc(label)}</h2><span class="score">${words.length} từ</span></div><div class="tbl"><table><tr><th>#</th><th>Từ</th><th>Kanji</th><th>Romaji</th><th>Nghĩa</th></tr>${rows}</table></div></div>`;
+  document.getElementById("back").onclick=()=>{vocabList(n);window.scrollTo(0,0)};
+},"Chọn chủ đề để xem")}
 
 function flash(title,cards){
   let order=cards.map((_,i)=>i),i=0,flipped=false;
@@ -556,9 +558,9 @@ function quiz(title,items,{placeholder,checker,answerHTML}){
   }
   start(shuffle(items.map((_,k)=>k)));
 }
-function pickTopic(n,title,run){
+function pickTopic(n,title,run,sub){
   const topics=[...new Set(VOCAB[n].map(w=>w.topic))];
-  app.innerHTML=`${backBtn}<div class="panel"><div class="head"><h2>${title} – Bài ${n}</h2></div><p class="q">Chọn chủ đề để kiểm tra</p><div class="topics">${topics.map((t,k)=>`<button class="btn" data-t="${k}">${esc(t)} <span class="cnt">${VOCAB[n].filter(w=>w.topic===t).length} từ</span></button>`).join("")}<button class="btn fill" data-t="all">Tất cả <span class="cnt">${VOCAB[n].length} từ</span></button></div></div>`;
+  app.innerHTML=`${backBtn}<div class="panel"><div class="head"><h2>${title} – Bài ${n}</h2></div><p class="q">${sub||"Chọn chủ đề để kiểm tra"}</p><div class="topics">${topics.map((t,k)=>`<button class="btn" data-t="${k}">${esc(t)} <span class="cnt">${VOCAB[n].filter(w=>w.topic===t).length} từ</span></button>`).join("")}<button class="btn fill" data-t="all">Tất cả <span class="cnt">${VOCAB[n].length} từ</span></button></div></div>`;
   bindBack();
   app.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{const all=b.dataset.t==="all",t=topics[b.dataset.t];run(all?VOCAB[n]:VOCAB[n].filter(w=>w.topic===t),all?"Tất cả":t);window.scrollTo(0,0)});
 }
