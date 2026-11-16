@@ -63,6 +63,7 @@ th{background:#f9fafb}
 @media (max-width:520px){.grow{grid-template-columns:1fr}}
 .ro{color:var(--muted);font-style:italic}
 .score{font-size:15px;color:var(--muted)}
+.rlesson{margin-top:24px}.rlesson .rsec{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}.rlesson .rsec .btn{margin:0}.rnote{color:var(--muted);font-size:14px;margin:4px 0 12px}
 .topics{display:flex;flex-direction:column;gap:8px}
 .topics .btn{margin:0;display:flex;justify-content:space-between;align-items:center;text-align:left;color:var(--pink)}
 .topics .btn.fill{background:var(--pink);color:#fff;border:none}
@@ -282,6 +283,8 @@ DVD|diibuidii|đĩa DVD/dvd||ディーブイディー
 はたらきます|hatarakimasu|làm việc|働きます`};
 const VOCAB={};
 for(const n in V){let topic="";VOCAB[n]=V[n].split("\n").flatMap(l=>{if(l[0]==="#"){topic=l.slice(1);return[]}const[jp,ro,vn,kanji,alt]=l.split("|");return[{jp,ro,vn,kanji:kanji||"",alt:alt||"",topic}]})}
+const RK_SRC="#Người & quốc tịch\n私|わたし|watashi|tôi|1, 5, 18\n人|ひと|hito|người|6, 18\nこの人|このひと|kono hito|người này|15\n二人|ふたり|futari|hai người|2\n一人|ひとり|hitori|một người|6\n四人|よにん|yonin|bốn người|21\n学生|がくせい|gakusei|học sinh/sinh viên|1, 19\n日本人|にほんじん|nihonjin|người Nhật|6, 17, 19\nオーストラリア人|オーストラリアじん|oosutoraria jin|người Úc|2, 8\nイタリア人|イタリアじん|itaria jin|người Ý|2\nロシア人|ロシアじん|roshia jin|người Nga|4\nブラジル人|ブラジルじん|burajiru jin|người Brazil|8\nちゅうごく人|ちゅうごくじん|chuugoku jin|người Trung Quốc|15\nフランス人|フランスじん|furansu jin|người Pháp|19\n#Trường học & ngôn ngữ\n学校|がっこう|gakkou|trường học/trường|1, 5, 7\n日本語|にほんご|nihongo|tiếng Nhật|2, 3, 5, 11\n日本語学校|にほんごがっこう|nihongo gakkou|trường tiếng Nhật|2\nふじみ学校|ふじみがっこう|fujimi gakkou|trường Fujimi|8, 15\nロシア語|ロシアご|roshiago|tiếng Nga|12\nイタリア語|イタリアご|itariago|tiếng Ý|15\nドイツ語|ドイツご|doitsugo|tiếng Đức|22\n本|ほん|hon|sách/quyển sách|3, 11\n本や|ほんや|honya|hiệu sách/nhà sách|23\n日本|にほん|nihon|Nhật Bản/Nhật|21\n#Thứ trong tuần\n月曜日|げつようび|getsuyoubi|thứ hai|1, 9, 14, 20\n火曜日|かようび|kayoubi|thứ ba|10, 16★\n水曜日|すいようび|suiyoubi|thứ tư|10, 14\n木曜日|もくようび|mokuyoubi|thứ năm|13\n金曜日|きんようび|kin'youbi|thứ sáu|1, 9\n土曜日|どようび|doyoubi|thứ bảy|4, 9, 16★, 20\n日曜日|にちようび|nichiyoubi|chủ nhật|4, 9\nやすみの日|やすみのひ|yasumi no hi|ngày nghỉ|1, 4, 10\n#Giờ & thời gian\n九時|くじ|kuji|9 giờ/9h/chín giờ|3, 5\n五時半|ごじはん|goji han|5 giờ rưỡi/5h30/5 giờ 30/năm giờ rưỡi|3, 17\n七時半|しちじはん|shichiji han|7 giờ rưỡi/7h30/7 giờ 30/bảy giờ rưỡi|5, 16\n六時半|ろくじはん|rokuji han|6 giờ rưỡi/6h30/6 giờ 30/sáu giờ rưỡi|11, 17\n八時半|はちじはん|hachiji han|8 giờ rưỡi/8h30/8 giờ 30/tám giờ rưỡi|13\n四時|よじ|yoji|4 giờ/4h/bốn giờ|12\n四時四十五分|よじよんじゅうごふん|yoji yonjuugo fun|4 giờ 45 phút/4h45/4 giờ 45|12\n九時半|くじはん|kuji han|9 giờ rưỡi/9h30/9 giờ 30/chín giờ rưỡi|16★\n六時十五分|ろくじじゅうごふん|rokuji juugo fun|6 giờ 15 phút/6h15/6 giờ 15|16★\n九時十分|くじじゅっぷん/くじじっぷん|kuji juppun/kuji jippun|9 giờ 10 phút/9h10/9 giờ 10|20\n三時半|さんじはん|sanji han|3 giờ rưỡi/3h30/3 giờ 30/ba giờ rưỡi|20\n十二時|じゅうにじ|juuniji|12 giờ/12h/mười hai giờ|20\n時間|じかん|jikan|thời gian/giờ|20, 21\n時|とき|toki|khi/lúc|23\n#Ngày, tháng, năm\n七月七日|しちがつなのか|shichigatsu nanoka|ngày 7 tháng 7/mùng 7 tháng 7/7-7|6\n七月一日|しちがつついたち|shichigatsu tsuitachi|ngày 1 tháng 7/mùng 1 tháng 7/1-7|21\n五月五日|ごがついつか|gogatsu itsuka|ngày 5 tháng 5/mùng 5 tháng 5/5-5|7\n三月八日|さんがつようか|sangatsu youka|ngày 8 tháng 3/mùng 8 tháng 3/8-3|8\n十二月六日|じゅうにがつむいか|juunigatsu muika|ngày 6 tháng 12/mùng 6 tháng 12/6-12|16\n十四日|じゅうよっか|juuyokka|ngày 14|22\n四月|しがつ|shigatsu|tháng 4/tháng tư|19\n一年|いちねん|ichinen|một năm/1 năm|7\n一年半|いちねんはん|ichinen han|một năm rưỡi/1 năm rưỡi|19\n一年間|いちねんかん|ichinenkan|một năm/1 năm/trong một năm|23\n二千二十五年|にせんにじゅうごねん|nisen nijuugo nen|năm 2025/2025|22\n#Tiền\nお金|おかね|okane|tiền|10\n十万円|じゅうまんえん|juuman en|100.000 yên/100000 yên/một trăm nghìn yên|13\n百円|ひゃくえん|hyaku en|100 yên/một trăm yên|13, 19\n百円ショップ|ひゃくえんショップ|hyakuen shoppu|cửa hàng 100 yên|13, 19\n千三百円|せんさんびゃくえん|sen sanbyaku en|1.300 yên/1300 yên|15\n三千六百円|さんぜんろっぴゃくえん|sanzen roppyaku en|3.600 yên/3600 yên|18\n八百五十円|はっぴゃくごじゅうえん|happyaku gojuu en|850 yên|20\n六百八十円|ろっぴゃくはちじゅうえん|roppyaku hachijuu en|680 yên|22\n#Tuổi & số đếm\n二十才|はたち/にじゅっさい|hatachi/nijussai/nijissai|20 tuổi/hai mươi tuổi|4, 15\n十八才|じゅうはっさい|juuhassai|18 tuổi/mười tám tuổi|19\n三十才|さんじゅっさい/さんじっさい|sanjussai/sanjissai|30 tuổi/ba mươi tuổi|17\n二十一才|にじゅういっさい|nijuuissai|21 tuổi/hai mươi mốt tuổi|23\n一つ|ひとつ|hitotsu|một cái/1 cái|12\n二つ|ふたつ|futatsu|hai cái/2 cái|12\n三つ|みっつ|mittsu|ba cái/3 cái|16, 16★\n四つ|よっつ|yottsu|bốn cái/4 cái|16\n五つ|いつつ|itsutsu|năm cái/5 cái|16★\n十|とお/じゅう|too/juu|mười cái/10 cái/mười|16★\n#Khác\n何も|なにも|nani mo|không gì cả/không có gì|10, 22\n水|みず|mizu|nước|14\n間|あいだ|aida|ở giữa/giữa|23";
+let rkTopic="";const RK=RK_SRC.split("\n").flatMap(l=>{if(l[0]==="#"){rkTopic=l.slice(1);return[]}const[w,kana,ro,vn,d]=l.split("|");return[{w,kana,ro,vn,d,topic:rkTopic}]});
 
 const KANJI={
 1:[
@@ -450,7 +453,14 @@ function home(){
    <div class="sec g"><h3>Ngữ pháp</h3>
     <button class="btn" data-go="gview:${n}">Xem ngữ pháp</button>
     <button class="btn fill" data-go="gquiz:${n}">Kiểm tra (nhập romaji)</button></div>
-  </div>`).join("")}</div>`;
+  </div>`).join("")}</div>
+  <div class="lesson rlesson"><h2>Kanji trong Reading</h2><p class="rnote">${RK.length} từ kanji lấy từ file READING JPD113, chia theo chủ đề</p>
+   <div class="sec k rsec">
+    <button class="btn" data-go="rlist:0">Danh sách</button>
+    <button class="btn" data-go="rflash:0">Flashcard</button>
+    <button class="btn fill" data-go="rquiz1:0">Kiểm tra: Kanji → Nghĩa</button>
+    <button class="btn fill" data-go="rquiz2:0">Kiểm tra: Kanji → Cách đọc</button></div>
+  </div>`;
   app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{const[v,n]=b.dataset.go.split(":");ROUTES[v](+n);window.scrollTo(0,0)});
 }
 const backBtn=`<button class="back" id="back">← Quay lại</button>`;
@@ -560,12 +570,13 @@ function quiz(title,items,{placeholder,checker,answerHTML}){
   }
   start(shuffle(items.map((_,k)=>k)));
 }
-function pickTopic(n,title,run,sub){
-  const topics=[...new Set(VOCAB[n].map(w=>w.topic))];
-  app.innerHTML=`${backBtn}<div class="panel"><div class="head"><h2>${title} – Bài ${n}</h2></div><p class="q">${sub||"Chọn chủ đề để kiểm tra"}</p><div class="topics">${topics.map((t,k)=>`<button class="btn" data-t="${k}">${esc(t)} <span class="cnt">${VOCAB[n].filter(w=>w.topic===t).length} từ</span></button>`).join("")}<button class="btn fill" data-t="all">Tất cả <span class="cnt">${VOCAB[n].length} từ</span></button></div></div>`;
+function pickFrom(list,heading,run,sub,back){
+  const topics=[...new Set(list.map(w=>w.topic))];
+  app.innerHTML=`${backBtn}<div class="panel"><div class="head"><h2>${heading}</h2></div><p class="q">${sub||"Chọn chủ đề để kiểm tra"}</p><div class="topics">${topics.map((t,k)=>`<button class="btn" data-t="${k}">${esc(t)} <span class="cnt">${list.filter(w=>w.topic===t).length} từ</span></button>`).join("")}<button class="btn fill" data-t="all">Tất cả <span class="cnt">${list.length} từ</span></button></div></div>`;
   bindBack();
-  app.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{const all=b.dataset.t==="all",t=topics[b.dataset.t];run(all?VOCAB[n]:VOCAB[n].filter(w=>w.topic===t),all?"Tất cả":t);window.scrollTo(0,0)});
+  app.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{const all=b.dataset.t==="all",t=topics[b.dataset.t];run(all?list:list.filter(w=>w.topic===t),all?"Tất cả":t);window.scrollTo(0,0)});
 }
+function pickTopic(n,title,run,sub){pickFrom(VOCAB[n],`${title} – Bài ${n}`,run,sub)}
 function vocabQuiz1(n){pickTopic(n,"Kiểm tra: Kana → Nghĩa",(words,label)=>
   quiz(`Kiểm tra – Bài ${n} · ${esc(label)}`,words.map(w=>({w,prompt:"Nghĩa của từ này là gì?",jp:w.jp})),{
     placeholder:"Nhập nghĩa tiếng Việt (có dấu hoặc không dấu)",
@@ -615,7 +626,28 @@ function kanjiQuiz2(n){
     checker:(q,v)=>isJP(v)?(optForms(q.kana).some(f=>normKana(f)===normKana(v))?"ok":"no"):checkRomaji(v,[q.ro]),
     answerHTML:kanjiAnswer});
 }
-const ROUTES={vlist:vocabList,vflash:vocabFlash,vquiz1:vocabQuiz1,vquiz2:vocabQuiz2,klist:kanjiList,kflash:kanjiFlash,kquiz1:kanjiQuiz1,kquiz2:kanjiQuiz2,gview:gramView,gquiz:gramQuiz};
+const rkAlt=x=>x.split("/");
+const rkAnswer=q=>`<span class="big">${esc(q.w)}</span> ${esc(q.kana.replace(/\//g," / "))} · <i>${esc(q.ro.replace(/\//g," / "))}</i><br>${esc(q.vn.replace(/\//g,", "))}<br><span class="rnote">Đoạn ${esc(q.d)}</span>`;
+function readList(){pickFrom(RK,"Kanji trong Reading",(words,label)=>{
+  let prev="";const rows=words.map((w,i)=>{const h=label==="Tất cả"&&w.topic!==prev?`<tr class="trow"><td colspan="6">${esc(w.topic)}</td></tr>`:"";prev=w.topic;return h+`<tr><td>${i+1}</td><td style="font-size:20px">${esc(w.w)}</td><td>${esc(w.kana.replace(/\//g," / "))}</td><td class="ro">${esc(w.ro.replace(/\//g," / "))}</td><td>${esc(w.vn.replace(/\//g,", "))}</td><td>${esc(w.d)}</td></tr>`}).join("");
+  app.innerHTML=`<button class="back" id="back">← Chọn chủ đề khác</button><div class="panel wide"><div class="head"><h2>Kanji trong Reading · ${esc(label)}</h2><span class="score">${words.length} từ</span></div><div class="tbl"><table><tr><th>#</th><th>Kanji</th><th>Cách đọc</th><th>Romaji</th><th>Nghĩa</th><th>Đoạn</th></tr>${rows}</table></div></div>`;
+  document.getElementById("back").onclick=()=>{readList();window.scrollTo(0,0)};
+},"Chọn chủ đề để xem")}
+function readFlash(){pickFrom(RK,"Flashcard – Kanji trong Reading",(words,label)=>
+  flash(`Flashcard Reading · ${esc(label)}`,words.map(w=>({
+    front:`<div class="front">${esc(w.w)}</div>`,
+    back:`<div class="meaning">${esc(w.vn.replace(/\//g,", "))}</div><div class="sub">${esc(w.w)} · ${esc(w.kana.replace(/\//g," / "))} · <i>${esc(w.ro.replace(/\//g," / "))}</i></div><div class="sub">Đoạn ${esc(w.d)}</div>`}))),"Chọn chủ đề để học")}
+function readQuiz1(){pickFrom(RK,"Kiểm tra: Kanji → Nghĩa (Reading)",(words,label)=>
+  quiz(`Reading: Kanji → Nghĩa · ${esc(label)}`,words.map(q=>({...q,prompt:"Nghĩa tiếng Việt của từ này là gì?",jp:q.w})),{
+    placeholder:"Nhập nghĩa tiếng Việt (có dấu hoặc không dấu)",
+    checker:(q,v)=>{const hv=hvOf(q.w);return checkVN(v,q.vn+(hv?"/"+hv:""))},
+    answerHTML:rkAnswer}))}
+function readQuiz2(){pickFrom(RK,"Kiểm tra: Kanji → Cách đọc (Reading)",(words,label)=>
+  quiz(`Reading: Kanji → Cách đọc · ${esc(label)}`,words.map(q=>({...q,prompt:"Từ này đọc như thế nào?",jp:q.w})),{
+    placeholder:"Gõ kana (がっこう) hoặc romaji (gakkou)",
+    checker:(q,v)=>isJP(v)?(rkAlt(q.kana).some(f=>normKana(f)===normKana(v))?"ok":"no"):checkRomaji(v,rkAlt(q.ro)),
+    answerHTML:rkAnswer}))}
+const ROUTES={vlist:vocabList,vflash:vocabFlash,vquiz1:vocabQuiz1,vquiz2:vocabQuiz2,klist:kanjiList,kflash:kanjiFlash,kquiz1:kanjiQuiz1,kquiz2:kanjiQuiz2,gview:gramView,gquiz:gramQuiz,rlist:readList,rflash:readFlash,rquiz1:readQuiz1,rquiz2:readQuiz2};
 home();
 </script>
 </body>
